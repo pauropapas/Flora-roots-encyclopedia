@@ -1,0 +1,2276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#050d07"/>
+<meta name="description" content="Flora & Roots — The World's Botanical Encyclopedia. Fruits, Plants, Trees, Herbs, Mushrooms, Vines & More."/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Flora & Roots"/>
+<!-- PWA Manifest -->
+<link rel="manifest" href="./manifest.json"/>
+<!-- Apple Touch Icons for iOS home screen -->
+<link rel="apple-touch-icon" sizes="152x152" href="./icons/icon-152.png"/>
+<link rel="apple-touch-icon" sizes="192x192" href="./icons/icon-192.png"/>
+<link rel="apple-touch-icon" sizes="512x512" href="./icons/icon-512.png"/>
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet"/>
+<title>Flora & Roots — Botanical Encyclopedia</title>
+<style>
+:root{
+  --bg:#050d07;--bg2:#081209;--bg3:#0d1a10;
+  --card:#0f1c12;--card2:#142018;--card3:#192a1d;
+  --border:#1c2e20;--border2:#243829;
+  --accent:#52c976;--accent2:#a8ddb5;--accent3:#d4edda;
+  --gold:#f0c060;--gold2:#f7d98a;
+  --red:#e05555;--orange:#e08050;
+  --teal:#5dc4a8;--blue:#5a9fd4;--purple:#9b7fd4;
+  --fruit-c:#e07840;--plant-c:#52c976;--tree-c:#8fba60;
+  --herb-c:#5dc4a8;--mush-c:#c4914a;--vine-c:#9b7fd4;
+  --text:#e2ede4;--text2:#7da882;--text3:#3d6644;--text4:#2a4a30;
+  --glass:rgba(15,28,18,0.9);
+  --r:16px;--r2:12px;
+  --shadow:0 12px 48px rgba(0,0,0,0.7);
+  --glow:0 0 30px rgba(82,201,118,0.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth;height:100%}
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--bg);color:var(--text);
+  min-height:100vh;overflow-x:hidden;
+  font-size:15px;line-height:1.6;
+}
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 0%,rgba(82,201,118,0.06) 0%,transparent 65%),
+    radial-gradient(ellipse 50% 70% at 85% 90%,rgba(196,145,74,0.05) 0%,transparent 65%),
+    radial-gradient(ellipse 40% 40% at 50% 50%,rgba(93,196,168,0.03) 0%,transparent 70%);
+}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+img{max-width:100%}
+button{font-family:'Outfit',sans-serif}
+
+/* =================== NAV =================== */
+#topnav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:rgba(5,13,7,0.95);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  height:60px;display:flex;align-items:center;
+  padding:0 16px;gap:12px;
+}
+.nav-logo{
+  font-family:'Cinzel Decorative',cursive;
+  font-size:.85rem;color:var(--accent);
+  letter-spacing:.05em;white-space:nowrap;
+  display:flex;align-items:center;gap:8px;flex-shrink:0;
+}
+.nav-logo-leaf{font-size:1.2rem;animation:sway 4s ease-in-out infinite}
+@keyframes sway{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+.nav-sections{
+  display:flex;gap:2px;overflow-x:auto;
+  scrollbar-width:none;flex:1;
+}
+.nav-sections::-webkit-scrollbar{display:none}
+.nsec{
+  background:none;border:none;
+  color:var(--text3);font-size:.72rem;font-weight:500;
+  padding:6px 12px;border-radius:20px;cursor:pointer;
+  white-space:nowrap;transition:all .2s;
+  display:flex;align-items:center;gap:5px;
+}
+.nsec:hover,.nsec.active{background:var(--card2);color:var(--accent)}
+.nsec.active{font-weight:600}
+.nav-acts{display:flex;gap:6px;flex-shrink:0}
+.nav-icon{
+  background:none;border:1px solid var(--border);
+  color:var(--text3);width:34px;height:34px;
+  border-radius:10px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.95rem;transition:all .2s;position:relative;
+}
+.nav-icon:hover,.nav-icon.active{border-color:var(--accent);color:var(--accent)}
+.fav-count{
+  position:absolute;top:-4px;right:-4px;
+  background:var(--gold);color:#050d07;
+  font-size:.55rem;font-weight:700;
+  width:16px;height:16px;border-radius:50%;
+  display:none;align-items:center;justify-content:center;
+}
+.fav-count.show{display:flex}
+
+/* =================== PAGES =================== */
+.page{display:none;padding-top:60px;min-height:100vh;position:relative;z-index:1}
+.page.active{display:block}
+
+/* =================== HOME =================== */
+.hero{
+  padding:56px 20px 40px;
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+.hero-bg-text{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-family:'Cinzel Decorative',cursive;
+  font-size:clamp(5rem,20vw,14rem);
+  color:rgba(82,201,118,0.025);
+  white-space:nowrap;pointer-events:none;letter-spacing:.1em;
+  user-select:none;
+}
+.hero-eyebrow{
+  font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:12px;font-weight:500;
+}
+.hero-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.6rem,8vw,5.5rem);
+  line-height:1.1;color:var(--text);
+  margin-bottom:14px;
+}
+.hero-title em{color:var(--accent);font-style:italic}
+.hero-sub{
+  color:var(--text2);font-size:.9rem;
+  max-width:480px;margin:0 auto 36px;line-height:1.75;
+}
+.hero-stats{
+  display:flex;gap:24px;justify-content:center;flex-wrap:wrap;
+  margin-bottom:40px;
+}
+.hstat{text-align:center}
+.hstat-n{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.2rem;font-weight:700;color:var(--accent);
+  line-height:1;
+}
+.hstat-l{font-size:.7rem;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-top:4px}
+
+/* SEARCH */
+.search-bar{
+  max-width:580px;margin:0 auto 28px;
+  position:relative;
+}
+.search-input{
+  width:100%;background:var(--card);
+  border:1px solid var(--border2);border-radius:50px;
+  color:var(--text);font-family:'Outfit',sans-serif;font-size:.92rem;
+  padding:14px 52px 14px 52px;outline:none;
+  transition:all .25s;
+}
+.search-input:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 4px rgba(82,201,118,.1),var(--glow);
+}
+.search-input::placeholder{color:var(--text3)}
+.search-icon{
+  position:absolute;left:18px;top:50%;transform:translateY(-50%);
+  color:var(--text3);font-size:1rem;pointer-events:none;
+}
+.search-clear{
+  position:absolute;right:16px;top:50%;transform:translateY(-50%);
+  background:var(--card2);border:none;color:var(--text2);
+  width:24px;height:24px;border-radius:50%;cursor:pointer;
+  font-size:.7rem;display:none;align-items:center;justify-content:center;
+  transition:all .2s;
+}
+.search-clear.show{display:flex}
+.search-clear:hover{background:var(--red);color:#fff}
+
+/* FILTER ROW */
+.filter-row{
+  display:flex;gap:8px;flex-wrap:wrap;
+  justify-content:center;padding:0 16px 28px;
+}
+.filt{
+  background:var(--card);border:1px solid var(--border);
+  color:var(--text2);font-size:.75rem;font-weight:500;
+  padding:7px 16px;border-radius:24px;cursor:pointer;
+  transition:all .2s;display:flex;align-items:center;gap:6px;
+}
+.filt:hover{border-color:var(--accent);color:var(--accent)}
+.filt.active{
+  background:var(--accent);border-color:var(--accent);
+  color:var(--bg);font-weight:600;
+}
+.filt-dot{width:7px;height:7px;border-radius:50%}
+.fd-fruit{background:var(--fruit-c)}
+.fd-plant{background:var(--plant-c)}
+.fd-tree{background:var(--tree-c)}
+.fd-herb{background:var(--herb-c)}
+.fd-mushroom{background:var(--mush-c)}
+.fd-vine{background:var(--vine-c)}
+
+/* VIEW TOGGLE */
+.view-toggle{
+  display:flex;justify-content:flex-end;
+  padding:0 20px 16px;gap:6px;
+  max-width:1400px;margin:0 auto;
+}
+.vtbtn{
+  background:var(--card);border:1px solid var(--border);
+  color:var(--text3);width:32px;height:32px;border-radius:8px;
+  cursor:pointer;font-size:.9rem;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;
+}
+.vtbtn.active,.vtbtn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* GRID */
+#main-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(270px,1fr));
+  gap:14px;padding:0 16px 100px;
+  max-width:1400px;margin:0 auto;
+}
+#main-grid.list-view{
+  grid-template-columns:1fr;gap:8px;
+}
+
+/* CARD */
+.card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r);cursor:pointer;
+  transition:all .22s cubic-bezier(.34,1.56,.64,1);
+  position:relative;overflow:hidden;
+  animation:fadeIn .4s ease both;
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:var(--shadow);
+  border-color:var(--border2);
+  background:var(--card2);
+}
+.card-accent-bar{height:3px;border-radius:var(--r) var(--r) 0 0}
+.cat-fruit .card-accent-bar{background:linear-gradient(90deg,var(--fruit-c),var(--gold))}
+.cat-plant .card-accent-bar{background:linear-gradient(90deg,var(--plant-c),var(--teal))}
+.cat-tree .card-accent-bar{background:linear-gradient(90deg,var(--tree-c),var(--plant-c))}
+.cat-herb .card-accent-bar{background:linear-gradient(90deg,var(--herb-c),var(--blue))}
+.cat-mushroom .card-accent-bar{background:linear-gradient(90deg,var(--mush-c),#d4a870)}
+.cat-vine .card-accent-bar{background:linear-gradient(90deg,var(--vine-c),var(--blue))}
+.card-body{padding:18px}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
+.card-emoji{font-size:2.2rem;line-height:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4))}
+.card-meta{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.cat-badge{
+  font-size:.6rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  padding:3px 9px;border-radius:20px;
+}
+.cb-fruit{background:rgba(224,120,64,.2);color:var(--fruit-c)}
+.cb-plant{background:rgba(82,201,118,.2);color:var(--plant-c)}
+.cb-tree{background:rgba(143,186,96,.2);color:var(--tree-c)}
+.cb-herb{background:rgba(93,196,168,.2);color:var(--herb-c)}
+.cb-mushroom{background:rgba(196,145,74,.2);color:var(--mush-c)}
+.cb-vine{background:rgba(155,127,212,.2);color:var(--vine-c)}
+.rarity-pip{display:flex;gap:2px;align-items:center}
+.rp{width:5px;height:5px;border-radius:50%;background:var(--border2)}
+.rp.filled{background:var(--gold)}
+.card-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.25rem;font-weight:700;color:var(--text);
+  line-height:1.2;margin-bottom:2px;
+}
+.card-sci{font-size:.72rem;color:var(--text3);font-style:italic;margin-bottom:6px}
+.card-desc{
+  font-size:.8rem;color:var(--text2);line-height:1.65;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  margin-bottom:10px;
+}
+.card-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px}
+.ctag{
+  font-size:.65rem;background:var(--bg3);
+  border:1px solid var(--border);color:var(--text3);
+  padding:2px 8px;border-radius:16px;
+}
+.card-foot{display:flex;gap:6px}
+.cfbtn{
+  flex:1;background:var(--card3);border:1px solid var(--border);
+  color:var(--text2);font-size:.72rem;font-weight:500;
+  padding:7px 6px;border-radius:9px;cursor:pointer;
+  transition:all .18s;display:flex;align-items:center;justify-content:center;gap:4px;
+}
+.cfbtn:hover{border-color:var(--accent);color:var(--accent);background:rgba(82,201,118,.06)}
+.cfbtn.faved{color:var(--gold) !important;border-color:var(--gold) !important}
+
+/* LIST VIEW CARD */
+#main-grid.list-view .card{display:flex;flex-direction:row;align-items:center}
+#main-grid.list-view .card-accent-bar{width:4px;height:auto;border-radius:var(--r) 0 0 var(--r);align-self:stretch;flex-shrink:0}
+#main-grid.list-view .card-body{display:flex;flex:1;gap:14px;align-items:center;padding:14px 16px}
+#main-grid.list-view .card-top{flex-shrink:0;margin:0}
+#main-grid.list-view .card-meta{display:none}
+#main-grid.list-view .card-content{flex:1}
+#main-grid.list-view .card-sci{display:none}
+#main-grid.list-view .card-tags{display:none}
+#main-grid.list-view .card-foot{flex-shrink:0;flex-direction:column;gap:4px}
+#main-grid.list-view .card-desc{-webkit-line-clamp:1;margin:0}
+
+/* =================== MODAL =================== */
+.overlay{
+  position:fixed;inset:0;z-index:300;
+  background:rgba(0,0,0,.8);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  display:none;align-items:flex-start;justify-content:center;
+  overflow-y:auto;padding:16px;
+}
+.overlay.open{display:flex}
+.modal{
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:20px;max-width:820px;width:100%;
+  margin:auto;position:relative;
+  animation:modalIn .32s cubic-bezier(.34,1.3,.64,1) both;
+}
+@keyframes modalIn{from{opacity:0;transform:scale(.92) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-close{
+  position:absolute;top:14px;right:14px;z-index:10;
+  background:var(--card2);border:1px solid var(--border);
+  color:var(--text2);width:36px;height:36px;border-radius:50%;
+  cursor:pointer;font-size:1rem;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;
+}
+.modal-close:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.modal-header{
+  padding:32px 32px 24px;
+  border-bottom:1px solid var(--border);
+  display:flex;gap:20px;align-items:flex-start;
+  background:linear-gradient(135deg,var(--card2),var(--bg2));
+  border-radius:20px 20px 0 0;
+}
+.modal-emoji{
+  font-size:4rem;line-height:1;flex-shrink:0;
+  filter:drop-shadow(0 4px 12px rgba(0,0,0,.5));
+}
+.modal-hinfo{flex:1}
+.modal-cat-badge{display:inline-flex;margin-bottom:8px}
+.modal-rarity{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.modal-rarity-label{font-size:.7rem;color:var(--text3);letter-spacing:.05em}
+.rarity-bar{display:flex;gap:3px}
+.rb{width:14px;height:5px;border-radius:3px;background:var(--border2)}
+.rb.filled{background:var(--gold)}
+.modal-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2rem;font-weight:700;color:var(--text);
+  line-height:1.15;margin-bottom:4px;
+}
+.modal-sci{font-size:.85rem;color:var(--text3);font-style:italic;margin-bottom:10px}
+.modal-locals{font-size:.82rem;color:var(--text2);line-height:1.8}
+.modal-locals strong{color:var(--accent2);font-weight:500}
+.modal-fav-btn{
+  background:var(--card3);border:1px solid var(--border);
+  color:var(--text2);padding:8px 18px;border-radius:10px;
+  cursor:pointer;font-size:.8rem;font-weight:500;
+  transition:all .2s;display:flex;align-items:center;gap:6px;
+  margin-top:12px;
+}
+.modal-fav-btn:hover{border-color:var(--gold);color:var(--gold)}
+.modal-fav-btn.faved{background:rgba(240,192,96,.1);border-color:var(--gold);color:var(--gold)}
+
+/* MODAL TABS */
+.modal-tabs{
+  display:flex;gap:0;
+  border-bottom:1px solid var(--border);
+  overflow-x:auto;scrollbar-width:none;
+  padding:0 24px;
+}
+.modal-tabs::-webkit-scrollbar{display:none}
+.mtab{
+  background:none;border:none;
+  font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:500;
+  color:var(--text3);padding:12px 16px;cursor:pointer;
+  border-bottom:2px solid transparent;margin-bottom:-1px;
+  transition:all .2s;white-space:nowrap;
+}
+.mtab:hover{color:var(--accent2)}
+.mtab.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* MODAL CONTENT */
+.modal-pane{display:none;padding:24px 28px 32px;animation:fadeIn .25s ease}
+.modal-pane.active{display:block}
+
+/* SECTION HEADERS in modal */
+.sec-h{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.15rem;font-weight:600;color:var(--accent2);
+  margin-bottom:12px;display:flex;align-items:center;gap:8px;
+}
+.sec-h::after{content:'';flex:1;height:1px;background:var(--border)}
+.sec-text{font-size:.85rem;color:var(--text2);line-height:1.8;margin-bottom:18px}
+
+/* NUTRITION TABLE */
+.nutr-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+  gap:8px;margin-bottom:18px;
+}
+.nutr-cell{
+  background:var(--card3);border:1px solid var(--border);
+  border-radius:10px;padding:12px;text-align:center;
+}
+.nutr-val{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--accent)}
+.nutr-unit{font-size:.65rem;color:var(--text3)}
+.nutr-label{font-size:.72rem;color:var(--text2);margin-top:2px}
+
+/* VITAMINS */
+.vit-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
+.vit{
+  background:rgba(82,201,118,.08);border:1px solid rgba(82,201,118,.2);
+  color:var(--accent2);font-size:.72rem;font-weight:500;
+  padding:4px 12px;border-radius:20px;
+}
+
+/* STEPS */
+.steps{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:18px}
+.step{
+  display:flex;gap:14px;align-items:flex-start;
+  background:var(--card3);border:1px solid var(--border);
+  border-radius:10px;padding:14px;
+}
+.step-num{
+  background:var(--accent);color:var(--bg);
+  width:26px;height:26px;border-radius:50%;
+  font-size:.75rem;font-weight:700;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.step-text{font-size:.83rem;color:var(--text2);line-height:1.7}
+.step-text strong{color:var(--text);display:block;margin-bottom:3px;font-weight:500}
+
+/* RECIPE BLOCK */
+.recipe-block{
+  background:var(--card3);border:1px solid var(--border);
+  border-radius:12px;padding:18px;margin-bottom:14px;
+}
+.recipe-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem;font-weight:600;color:var(--text);
+  margin-bottom:8px;
+}
+.recipe-meta{display:flex;gap:14px;margin-bottom:12px;flex-wrap:wrap}
+.rmeta{font-size:.72rem;color:var(--text3);display:flex;align-items:center;gap:4px}
+.ingr-list{font-size:.8rem;color:var(--text2);line-height:2;margin-bottom:10px}
+.ingr-list li{list-style:disc;margin-left:18px}
+.recipe-tip{
+  background:rgba(240,192,96,.07);border:1px solid rgba(240,192,96,.2);
+  border-radius:8px;padding:10px 14px;
+  font-size:.78rem;color:var(--gold2);line-height:1.6;
+}
+.recipe-tip::before{content:'💡 Tip: ';font-weight:600}
+
+/* WARNING BOX */
+.warn-box{
+  background:rgba(224,85,85,.08);border:1px solid rgba(224,85,85,.25);
+  border-radius:10px;padding:14px 16px;margin-bottom:14px;
+  font-size:.82rem;color:#f0a0a0;line-height:1.7;
+}
+.warn-box::before{content:'⚠️ ';font-size:1rem}
+
+/* ECOLOGY */
+.eco-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:8px;margin-bottom:18px;
+}
+.eco-card{
+  background:var(--card3);border:1px solid var(--border);
+  border-radius:10px;padding:14px;
+}
+.eco-icon{font-size:1.4rem;margin-bottom:6px}
+.eco-label{font-size:.7rem;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.eco-val{font-size:.82rem;color:var(--text2);line-height:1.6}
+
+/* SEASONAL CALENDAR */
+.cal-row{display:flex;gap:4px;margin-bottom:18px;flex-wrap:wrap}
+.cal-m{
+  flex:1;min-width:calc(8.33% - 4px);
+  background:var(--card3);border:1px solid var(--border);
+  border-radius:6px;padding:6px 2px;text-align:center;
+  font-size:.6rem;color:var(--text3);transition:all .2s;
+}
+.cal-m.peak{background:rgba(82,201,118,.2);border-color:var(--accent);color:var(--accent);font-weight:600}
+.cal-m.partial{background:rgba(82,201,118,.07);border-color:rgba(82,201,118,.2);color:var(--accent2)}
+.cal-m-name{font-size:.55rem;margin-bottom:2px}
+
+/* NOTES */
+.notes-area{
+  width:100%;background:var(--card3);
+  border:1px solid var(--border2);border-radius:12px;
+  color:var(--text);font-family:'Outfit',sans-serif;font-size:.85rem;
+  padding:14px;outline:none;resize:vertical;min-height:120px;
+  transition:border-color .2s;
+  margin-bottom:10px;line-height:1.7;
+}
+.notes-area:focus{border-color:var(--accent)}
+.notes-area::placeholder{color:var(--text4)}
+.notes-save{
+  background:var(--accent);border:none;
+  color:var(--bg);font-family:'Outfit',sans-serif;
+  font-size:.8rem;font-weight:600;
+  padding:9px 20px;border-radius:9px;cursor:pointer;
+  transition:all .2s;
+}
+.notes-save:hover{opacity:.88}
+.notes-saved{font-size:.75rem;color:var(--accent);margin-left:10px;display:none}
+
+/* RELATED */
+.related-row{
+  display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;
+  scrollbar-width:none;
+}
+.related-row::-webkit-scrollbar{display:none}
+.rel-card{
+  background:var(--card3);border:1px solid var(--border);
+  border-radius:12px;padding:14px;min-width:130px;
+  cursor:pointer;transition:all .2s;flex-shrink:0;text-align:center;
+}
+.rel-card:hover{border-color:var(--accent);background:var(--card2)}
+.rel-emoji{font-size:1.8rem;margin-bottom:6px}
+.rel-name{font-size:.75rem;color:var(--text2);font-weight:500}
+
+/* =================== PAGES: FAVORITES =================== */
+.page-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2rem;font-weight:700;color:var(--text);
+  padding:36px 24px 8px;
+}
+.page-sub{font-size:.85rem;color:var(--text2);padding:0 24px 24px}
+.empty-state{
+  text-align:center;padding:80px 24px;
+}
+.empty-icon{font-size:3.5rem;margin-bottom:16px;opacity:.4}
+.empty-msg{color:var(--text3);font-size:.9rem}
+
+/* =================== TRIVIA / QUIZ =================== */
+.quiz-wrap{max-width:640px;margin:0 auto;padding:24px 16px 80px}
+.quiz-card{
+  background:var(--card);border:1px solid var(--border2);
+  border-radius:20px;padding:32px;margin-bottom:20px;
+}
+.quiz-num{font-size:.72rem;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px}
+.quiz-q{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.4rem;color:var(--text);line-height:1.4;
+  margin-bottom:24px;
+}
+.quiz-opts{display:flex;flex-direction:column;gap:8px}
+.qopt{
+  background:var(--card2);border:1px solid var(--border);
+  color:var(--text2);font-size:.85rem;
+  padding:13px 18px;border-radius:12px;cursor:pointer;
+  transition:all .2s;text-align:left;font-family:'Outfit',sans-serif;
+}
+.qopt:hover{border-color:var(--accent);color:var(--accent)}
+.qopt.correct{background:rgba(82,201,118,.15);border-color:var(--accent);color:var(--accent);font-weight:600}
+.qopt.wrong{background:rgba(224,85,85,.12);border-color:var(--red);color:var(--red)}
+.quiz-result{
+  text-align:center;padding:24px 0 0;
+  font-size:.85rem;color:var(--text2);display:none;
+}
+.quiz-result.show{display:block}
+.quiz-score{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.5rem;font-weight:700;color:var(--accent);
+  display:block;margin-bottom:6px;
+}
+.quiz-next{
+  background:var(--accent);border:none;
+  color:var(--bg);font-family:'Outfit',sans-serif;font-size:.85rem;font-weight:600;
+  padding:12px 28px;border-radius:12px;cursor:pointer;
+  margin-top:14px;transition:all .2s;
+}
+.quiz-next:hover{opacity:.88}
+
+/* DID YOU KNOW banner */
+.dyk-banner{
+  background:linear-gradient(135deg,var(--card2),var(--card3));
+  border:1px solid var(--border2);border-radius:16px;
+  padding:20px 24px;margin:0 16px 28px;
+  display:flex;gap:14px;align-items:flex-start;
+  max-width:1400px;margin-left:auto;margin-right:auto;
+}
+.dyk-icon{font-size:1.8rem;flex-shrink:0}
+.dyk-label{font-size:.65rem;color:var(--gold);letter-spacing:.15em;text-transform:uppercase;font-weight:600;margin-bottom:4px}
+.dyk-text{font-size:.85rem;color:var(--text2);line-height:1.7}
+.dyk-source{font-size:.72rem;color:var(--accent);font-style:italic;margin-top:4px}
+
+/* SEASONAL CALENDAR PAGE */
+.cal-page{padding:16px 16px 80px;max-width:1000px;margin:0 auto}
+.cal-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:12px;
+}
+.cal-item{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:16px;cursor:pointer;
+  transition:all .2s;
+}
+.cal-item:hover{border-color:var(--accent);background:var(--card2)}
+.cal-item-top{display:flex;gap:12px;align-items:center;margin-bottom:10px}
+.cal-item-emoji{font-size:1.8rem}
+.cal-item-name{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;color:var(--text)}
+.cal-months-mini{display:flex;gap:2px}
+.cmm{
+  width:14px;height:14px;border-radius:3px;
+  background:var(--border);
+}
+.cmm.peak{background:var(--accent)}
+.cmm.partial{background:rgba(82,201,118,.35)}
+
+/* BOTTOM NAV (mobile) */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:150;
+  background:rgba(5,13,7,0.97);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-top:1px solid var(--border);
+  display:flex;padding:0 8px;height:60px;
+  display:none;
+}
+@media(max-width:640px){
+  .bottom-nav{display:flex}
+  .nav-sections{display:none}
+  .page{padding-bottom:70px}
+}
+.bnav-btn{
+  flex:1;background:none;border:none;
+  color:var(--text3);font-size:.6rem;font-weight:500;
+  cursor:pointer;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:3px;
+  transition:all .2s;
+}
+.bnav-btn.active,.bnav-btn:hover{color:var(--accent)}
+.bnav-icon{font-size:1.2rem}
+
+/* MISC */
+.divider{height:1px;background:var(--border);margin:20px 0}
+.highlight{color:var(--accent);font-weight:500}
+.no-results{text-align:center;padding:60px 20px;color:var(--text3)}
+.no-results-icon{font-size:3rem;margin-bottom:12px;opacity:.5}
+
+@media(max-width:768px){
+  .modal-header{flex-direction:column;gap:12px;padding:24px 20px 18px}
+  .modal-emoji{font-size:3rem}
+  .modal-name{font-size:1.6rem}
+  .modal-pane{padding:18px 16px 24px}
+  .modal-tabs{padding:0 12px}
+  .mtab{padding:10px 12px;font-size:.74rem}
+  .nutr-grid{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav id="topnav">
+  <div class="nav-logo">
+    <span class="nav-logo-leaf">🌿</span>
+    Flora & Roots
+  </div>
+  <div class="nav-sections">
+    <button class="nsec active" data-page="home">🏠 Home</button>
+    <button class="nsec" data-page="favorites">⭐ Favorites</button>
+    <button class="nsec" data-page="quiz">🧠 Quiz</button>
+    <button class="nsec" data-page="seasonal">📅 Seasonal</button>
+  </div>
+  <div class="nav-acts">
+    <button class="nav-icon" id="fav-nav-btn" title="Favorites">⭐<span class="fav-count" id="fav-count">0</span></button>
+    <button class="nav-icon" id="quiz-nav-btn" title="Quiz">🧠</button>
+  </div>
+</nav>
+
+<!-- PAGES -->
+<main>
+
+<!-- HOME PAGE -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-bg-text">FLORA</div>
+    <div class="hero-eyebrow">🌍 World Botanical Encyclopedia</div>
+    <h1 class="hero-title">
+      Discover <em>Nature's</em><br/>Greatest Treasures
+    </h1>
+    <p class="hero-sub">From Philippine rainforests to Amazon jungles — explore fruits, plants, trees, herbs, mushrooms, and vines with rich history, nutrition, cultivation & recipes.</p>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-n" id="stat-total">180+</div><div class="hstat-l">Species</div></div>
+      <div class="hstat"><div class="hstat-n">7</div><div class="hstat-l">Categories</div></div>
+      <div class="hstat"><div class="hstat-n">40+</div><div class="hstat-l">Recipes</div></div>
+      <div class="hstat"><div class="hstat-n">100%</div><div class="hstat-l">Offline</div></div>
+    </div>
+  </div>
+
+  <!-- DID YOU KNOW -->
+  <div class="dyk-banner" id="dyk-banner">
+    <div class="dyk-icon">🌱</div>
+    <div>
+      <div class="dyk-label">Did You Know?</div>
+      <div class="dyk-text" id="dyk-text">Loading...</div>
+      <div class="dyk-source" id="dyk-source"></div>
+    </div>
+  </div>
+
+  <!-- SEARCH -->
+  <div style="padding:0 16px;max-width:700px;margin:0 auto 20px">
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" id="search-input" type="text" placeholder="Search any plant, fruit, herb…" autocomplete="off"/>
+      <button class="search-clear" id="search-clear">✕</button>
+    </div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filter-row">
+    <button class="filt active" data-cat="all">🌐 All</button>
+    <button class="filt" data-cat="fruit"><span class="filt-dot fd-fruit"></span>Fruits</button>
+    <button class="filt" data-cat="plant"><span class="filt-dot fd-plant"></span>Vegetables</button>
+    <button class="filt" data-cat="tree"><span class="filt-dot fd-tree"></span>Trees</button>
+    <button class="filt" data-cat="herb"><span class="filt-dot fd-herb"></span>Herbs & Spices</button>
+    <button class="filt" data-cat="mushroom"><span class="filt-dot fd-mush"></span>Mushrooms</button>
+    <button class="filt" data-cat="vine"><span class="filt-dot fd-vine"></span>Vines & Exotic</button>
+  </div>
+
+  <!-- VIEW TOGGLE -->
+  <div class="view-toggle">
+    <button class="vtbtn active" id="grid-btn" title="Grid view">⊞</button>
+    <button class="vtbtn" id="list-btn" title="List view">☰</button>
+  </div>
+
+  <!-- GRID -->
+  <div id="main-grid"></div>
+  <div id="no-results" class="no-results" style="display:none">
+    <div class="no-results-icon">🔎</div>
+    <div>No results found. Try a different search.</div>
+  </div>
+</div>
+
+<!-- FAVORITES PAGE -->
+<div class="page" id="page-favorites">
+  <div class="page-title">⭐ My Favorites</div>
+  <div class="page-sub">Items you've bookmarked for quick access.</div>
+  <div id="fav-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;padding:0 16px 80px;max-width:1400px;margin:0 auto"></div>
+  <div id="fav-empty" class="empty-state">
+    <div class="empty-icon">🌿</div>
+    <div class="empty-msg">No favorites yet.<br/>Tap the ⭐ on any item to save it here.</div>
+  </div>
+</div>
+
+<!-- QUIZ PAGE -->
+<div class="page" id="page-quiz">
+  <div class="page-title">🧠 Botanical Trivia</div>
+  <div class="page-sub">Test your knowledge of plants, fruits & more.</div>
+  <div class="quiz-wrap" id="quiz-wrap"></div>
+</div>
+
+<!-- SEASONAL PAGE -->
+<div class="page" id="page-seasonal">
+  <div class="page-title">📅 Seasonal Calendar</div>
+  <div class="page-sub">Discover what's in season each month.</div>
+  <div style="padding:0 16px 16px;display:flex;gap:6px;flex-wrap:wrap">
+    <span style="font-size:.72rem;background:rgba(82,201,118,.2);border:1px solid var(--accent);color:var(--accent);padding:3px 10px;border-radius:20px">■ Peak Season</span>
+    <span style="font-size:.72rem;background:rgba(82,201,118,.07);border:1px solid rgba(82,201,118,.3);color:var(--accent2);padding:3px 10px;border-radius:20px">■ Partial Season</span>
+  </div>
+  <div class="cal-page">
+    <div class="cal-grid" id="cal-grid"></div>
+  </div>
+</div>
+
+</main>
+
+<!-- BOTTOM NAV (mobile) -->
+<nav class="bottom-nav">
+  <button class="bnav-btn active" data-page="home"><span class="bnav-icon">🏠</span>Home</button>
+  <button class="bnav-btn" data-page="favorites"><span class="bnav-icon">⭐</span>Favorites</button>
+  <button class="bnav-btn" data-page="quiz"><span class="bnav-icon">🧠</span>Quiz</button>
+  <button class="bnav-btn" data-page="seasonal"><span class="bnav-icon">📅</span>Seasonal</button>
+</nav>
+
+<!-- DETAIL MODAL -->
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modal-close">✕</button>
+    <div class="modal-header" id="modal-header"></div>
+    <div class="modal-tabs" id="modal-tabs"></div>
+    <div id="modal-panes"></div>
+  </div>
+</div>
+
+<script>
+// ======================================================
+// DATA — 180+ species across all categories
+// ======================================================
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+const DATA = [
+// ===================== FRUITS =====================
+{id:'mango',cat:'fruit',emoji:'🥭',name:'Mango',sci:'Mangifera indica',
+ local:{tl:'Mangga',es:'Mango',zh:'芒果',hi:'आम',fr:'Mangue'},
+ rarity:1,phNative:true,
+ desc:'The "King of Fruits" — a tropical drupe prized worldwide for its sweet, aromatic flesh. Over 500 varieties exist globally.',
+ history:'Originated in South Asia over 4,000 years ago. Traveled via trade routes to Southeast Asia, Africa, and the Americas. The Philippines is among the top 10 producers worldwide, with Carabao mango recognized as one of the sweetest varieties.',
+ tags:['tropical','sweet','drupe','Philippines','India'],
+ nutrition:{cal:60,protein:0.8,carbs:15,fat:0.4,fiber:1.6,sugar:13.7,gi:51},
+ vitamins:['Vitamin C (60%)','Vitamin A (10%)','Vitamin B6 (9%)','Folate (11%)','Potassium','Magnesium'],
+ medicinal:'Rich in antioxidants; boosts immunity; aids digestion via amylases; anti-inflammatory polyphenols; traditionally used to treat heat stroke in Ayurveda.',
+ toxicity:'Mango sap and skin contain urushiol (similar to poison ivy) — may cause contact dermatitis in sensitive individuals.',
+ ecology:{role:'Bird-dispersed seed; flowers attract bees & butterflies; provides shade and habitat',pollinator:'Bees, flies, bats',soilImpact:'Neutral; leaf litter enriches topsoil',climate:'Tropical/subtropical'},
+ season:{peak:[3,4,5,6],partial:[7,2]},
+ cultivation:[
+   {title:'Site Selection',desc:'Choose a full-sun location with deep, well-drained loamy soil. pH 5.5–7.5. Avoid waterlogged areas.'},
+   {title:'Propagation',desc:'Graft or bud onto rootstock for true-to-type fruit. Seeds produce variable results. Air layering also works.'},
+   {title:'Planting',desc:'Space trees 8–10 meters apart. Dig a hole twice the root ball size. Plant in early rainy season.'},
+   {title:'Fertilizing',desc:'Apply NPK 14-14-14 every 3 months in young trees. Increase potassium before flowering to improve fruit quality.'},
+   {title:'Watering',desc:'Water deeply once a week in dry season. Withhold water 2–3 months before desired flowering season to stress-trigger blooming.'},
+   {title:'Flowering & Harvest',desc:'Trees flower after dry stress. Fruits ripen 100–150 days after flowering. Harvest when fruit gives slightly to pressure or turns yellow-orange.'},
+ ],
+ recipes:[
+   {name:'Mango Float (Filipino)',time:'20 min',servings:8,ingredients:['3 ripe mangoes, sliced','2 cups heavy cream, whipped','1 can condensed milk','1 pack graham crackers','½ tsp vanilla'],steps:['Whip cream until stiff peaks, fold in condensed milk and vanilla.','Layer grahams, cream, and mango slices in a dish.','Repeat layers 2–3 times, ending with mangoes.','Refrigerate 4 hours or overnight. Serve cold.'],tip:'Use Philippine Carabao mangoes for the sweetest result. Add a pinch of salt to the cream layer.'},
+   {name:'Mango Salsa',time:'10 min',servings:4,ingredients:['2 ripe mangoes, diced','½ red onion, minced','1 jalapeño, seeded & minced','Juice of 2 limes','¼ cup cilantro, chopped','Salt to taste'],steps:['Combine all ingredients in a bowl.','Season with salt and lime juice.','Let rest 10 min before serving.'],tip:'Serve over grilled fish or as a chip dip. Works brilliantly with slightly underripe mangoes for more texture.'},
+ ],
+ related:['banana','papaya','jackfruit','durian','lanzones']},
+
+{id:'banana',cat:'fruit',emoji:'🍌',name:'Banana',sci:'Musa acuminata / M. balbisiana',
+ local:{tl:'Saging',es:'Plátano',zh:'香蕉',hi:'केला',fr:'Banane'},
+ rarity:1,phNative:true,
+ desc:'World\'s most consumed fruit. A giant herb technically — not a tree! Philippines is one of the world\'s top exporters of Cavendish bananas.',
+ history:'Domesticated 8,000 years ago in Papua New Guinea. Arab traders brought bananas to Africa. Portuguese explorers introduced them to the Americas in the 1500s. Today bananas are the world\'s 4th largest crop.',
+ tags:['tropical','staple','herb','Philippines','potassium'],
+ nutrition:{cal:89,protein:1.1,carbs:23,fat:0.3,fiber:2.6,sugar:12,gi:51},
+ vitamins:['Vitamin B6 (22%)','Vitamin C (12%)','Potassium (9%)','Magnesium (6%)','Folate (5%)','Manganese (13%)'],
+ medicinal:'High potassium supports heart health; pectin and resistant starch aid gut health; tryptophan converts to serotonin (mood support); green banana used for diarrhea treatment.',
+ toxicity:'Generally safe. Overripe bananas may cause blood sugar spikes in diabetics. Banana flowers are edible but pollen may cause allergies.',
+ ecology:{role:'Understory plant; fallen leaves used as natural mulch; attracts sunbirds and fruit bats',pollinator:'Bats, birds',soilImpact:'Potassium accumulator; enriches soil with organic matter',climate:'Tropical humid'},
+ season:{peak:[1,2,3,4,5,6,7,8,9,10,11,12],partial:[]},
+ cultivation:[
+   {title:'Propagation',desc:'Use suckers (pups) from healthy mother plants. Select sword suckers (narrow leaves) over water suckers for best results.'},
+   {title:'Planting',desc:'Plant in well-drained soil with organic matter. Space 2.5–3m apart in rows. Dig 50cm holes and fill with compost.'},
+   {title:'Care',desc:'Mulch heavily around base. Water regularly but avoid waterlogging. Desuck regularly, leaving only one ratoon.'},
+   {title:'Pest Control',desc:'Watch for Panama disease (Fusarium wilt) and Black Sigatoka. Use disease-resistant varieties like FHIA hybrids.'},
+   {title:'Harvest',desc:'Cut bunch when fingers are plump and angular. Hang in shade to ripen fully. One harvest per plant — then ratoon.'},
+ ],
+ recipes:[
+   {name:'Banana Cue (Filipino Street Food)',time:'15 min',servings:4,ingredients:['6 saba bananas, halved','1 cup dark brown sugar','Oil for frying','Bamboo skewers'],steps:['Heat oil in pan over medium heat.','Fry bananas until golden, about 4 minutes.','Add brown sugar and coat bananas as sugar caramelizes.','Skewer and serve hot.'],tip:'Use saba variety (cardaba banana) — regular Cavendish gets too soft. The darker the sugar caramel, the better.'},
+ ],
+ related:['plantain','jackfruit','mango','papaya','coconut']},
+
+{id:'coconut',cat:'fruit',emoji:'🥥',name:'Coconut',sci:'Cocos nucifera',
+ local:{tl:'Niyog/Buko',es:'Coco',zh:'椰子',hi:'नारियल',fr:'Noix de coco'},
+ rarity:1,phNative:true,
+ desc:'The "Tree of Life" in the Philippines. Every part is used — from root to leaf. Second largest coconut producer in the world.',
+ history:'Origin debated between Indo-Pacific region and Americas. Coconuts float and survive at sea for months, enabling natural spread across oceans. Philippines became a major producer through Spanish colonization and trade.',
+ tags:['tropical','oil','staple','Philippines','palm'],
+ nutrition:{cal:354,protein:3.3,carbs:15,fat:33,fiber:9,sugar:6,gi:45},
+ vitamins:['Manganese (75%)','Copper (22%)','Selenium (11%)','Iron (13%)','Phosphorus (11%)','Zinc (10%)'],
+ medicinal:'Coconut oil has antimicrobial lauric acid; coconut water is a natural electrolyte solution; virgin coconut oil used for skin and hair; traditionally treats intestinal worms.',
+ toxicity:'High saturated fat content — consume oil in moderation. Raw coconut meat is safe; fermented toddy (tuba) is alcoholic.',
+ ecology:{role:'Coastal stabilizer; palm fronds provide habitat; coconut crab depends on it',pollinator:'Wind, insects',soilImpact:'Deep root systems prevent erosion; neutral soil impact',climate:'Coastal tropical'},
+ season:{peak:[1,2,3,4,5,6,7,8,9,10,11,12],partial:[]},
+ cultivation:[
+   {title:'Seedling Selection',desc:'Choose round, mature nuts from high-yielding mother trees. Float test: sinkers are best planting material.'},
+   {title:'Nursery Stage',desc:'Plant husked nuts in nursery beds, partially buried. Germination takes 3–6 months. Transplant when 6–8 leaves appear.'},
+   {title:'Planting',desc:'Space 8–9 meters in triangular pattern for maximum yield. Plant in holes 1m × 1m × 1m filled with organic matter.'},
+   {title:'Fertilization',desc:'Apply potassium-rich fertilizers (coconut trees are heavy K feeders). Use coconut coir compost around base.'},
+   {title:'Harvesting',desc:'First bearing at 5–7 years. Harvest every 45–60 days. Young coconuts for water at 6–7 months; mature nuts at 12 months.'},
+ ],
+ recipes:[
+   {name:'Ginataang Kalabasa (Coconut Squash)',time:'35 min',servings:6,ingredients:['500g squash, cubed','2 cups coconut milk','1 cup sitaw (string beans)','200g shrimp','3 cloves garlic','1 onion','2 tbsp bagoong (shrimp paste)','Salt & pepper'],steps:['Sauté garlic and onion in oil until soft.','Add shrimp, cook 2 minutes. Add bagoong.','Pour in coconut milk, bring to gentle simmer.','Add squash and cook 10–12 min until tender.','Add string beans last 3 minutes. Season to taste.'],tip:'Do not boil vigorously or coconut milk will split. Low and slow is the secret.'},
+ ],
+ related:['pandan','lemongrass','mango','jackfruit','banana']},
+
+{id:'pineapple',cat:'fruit',emoji:'🍍',name:'Pineapple',sci:'Ananas comosus',
+ local:{tl:'Pinya',es:'Piña',zh:'菠萝',hi:'अनानास',fr:'Ananas'},
+ rarity:1,phNative:false,
+ desc:'A tropical bromeliad whose multiple fruits fuse together. Philippines is known for Nata de Piña fabric made from its fibers.',
+ history:'Native to South America (Paraguay/Brazil). Columbus encountered it in Guadeloupe in 1493. Spanish brought it to Asia and Philippines in the 1600s. Today Philippines ranks among top global producers.',
+ tags:['tropical','bromeliad','enzyme','Americas','Philippines'],
+ nutrition:{cal:50,protein:0.5,carbs:13,fat:0.1,fiber:1.4,sugar:9.9,gi:59},
+ vitamins:['Vitamin C (79%)','Manganese (44%)','Vitamin B1 (8%)','Vitamin B6 (8%)','Folate (5%)','Bromelain enzyme'],
+ medicinal:'Bromelain enzyme aids protein digestion; anti-inflammatory; mucolytic (breaks down mucus); traditionally used for sore throat and joint pain.',
+ toxicity:'Eating large amounts can cause mouth irritation (bromelain effect). Unripe pineapple may cause vomiting. Pineapple skin is not edible.',
+ ecology:{role:'Ground cover plant; attracts hummingbirds and bees for pollination',pollinator:'Hummingbirds, bats',soilImpact:'Tolerates poor soil; acidifies surrounding soil slightly',climate:'Tropical, tolerates drought'},
+ season:{peak:[3,4,5,6,7],partial:[2,8,9]},
+ cultivation:[
+   {title:'Propagation',desc:'Use ratoon suckers, slips (from fruit base), or crowns (pineapple tops). Slips yield fastest.'},
+   {title:'Planting',desc:'Plant in well-drained, acidic soil (pH 4.5–6.5). Space 30cm within rows, 60cm between rows for commercial planting.'},
+   {title:'Flower Forcing',desc:'Ethylene gas or acetylene from calcium carbide solution can force simultaneous flowering for commercial harvest timing.'},
+   {title:'Pest Management',desc:'Mealybugs are the main pest (transmit wilt virus). Use reflective mulch and control ants that farm mealybugs.'},
+   {title:'Harvest',desc:'Harvest 18–24 months after planting. Fruit is ready when golden at base and gives slightly to pressure.'},
+ ],
+ recipes:[
+   {name:'Pineapple Hamonado (Sweet Pork)',time:'1 hr',servings:6,ingredients:['1kg pork belly, sliced','1 can pineapple chunks + juice','3 tbsp soy sauce','3 tbsp brown sugar','1 onion','4 cloves garlic'],steps:['Marinate pork in pineapple juice, soy sauce, sugar 1 hour.','Sauté garlic and onion. Add pork with marinade.','Simmer covered 30 minutes.','Add pineapple chunks and cook 10 more minutes until sauce thickens.'],tip:'The pineapple tenderizes the pork naturally via bromelain. The longer you marinate, the more tender the meat.'},
+ ],
+ related:['papaya','mango','coconut','guava','starfruit']},
+
+{id:'papaya',cat:'fruit',emoji:'🍈',name:'Papaya',sci:'Carica papaya',
+ local:{tl:'Papaya/Lechosa',es:'Papaya',zh:'木瓜',hi:'पपीता',fr:'Papaye'},
+ rarity:1,phNative:false,
+ desc:'Eaten ripe as fruit or unripe as vegetable. One of the fastest-fruiting trees — bears fruit in 6–12 months from seed.',
+ history:'Native to southern Mexico and Central America. Spread by Spanish and Portuguese explorers to Africa, Asia, and the Pacific in the 1500s. Now pantropical. Used green as vegetable in Filipino cuisine (tinolang manok).',
+ tags:['tropical','enzyme','Mexico','versatile','fast-growing'],
+ nutrition:{cal:43,protein:0.5,carbs:11,fat:0.3,fiber:1.7,sugar:7.8,gi:60},
+ vitamins:['Vitamin C (101%)','Vitamin A (22%)','Folate (10%)','Potassium (8%)','Papain enzyme','Choline'],
+ medicinal:'Papain enzyme aids protein digestion; anti-inflammatory; leaves used for dengue fever platelet support (traditional); seeds used as natural dewormer.',
+ toxicity:'Papaya latex (from unripe fruit) can cause uterine contractions — avoid during pregnancy in large amounts. Papaya seeds in excess are toxic.',
+ ecology:{role:'Pioneer species; fast-growing shade provider; fruit eaten by birds and mammals',pollinator:'Moths, butterflies',soilImpact:'Neutral; fast organic matter return from fallen leaves',climate:'Tropical, frost-sensitive'},
+ season:{peak:[1,2,3,4,5,6,7,8,9,10,11,12],partial:[]},
+ cultivation:[
+   {title:'Seed Preparation',desc:'Wash seeds from ripe papaya, dry 1–2 days. No need for special treatment — germination is fast (1–3 weeks).'},
+   {title:'Transplanting',desc:'Start seeds in small pots, transplant at 20–30cm height. Space 2.5m apart. Papaya hates waterlogging — raised beds are ideal.'},
+   {title:'Sexing Plants',desc:'Papaya has male, female, and hermaphrodite plants. Only females and hermaphrodites fruit. Plant 3–4 per spot, remove males after flowering.'},
+   {title:'Harvesting',desc:'Harvest when skin turns yellow-orange (30–50%). Will ripen fully off the tree in 2–3 days at room temperature.'},
+ ],
+ recipes:[
+   {name:'Tinolang Manok (Papaya Chicken Soup)',time:'45 min',servings:6,ingredients:['1 whole chicken, cut up','1 green papaya, cubed','1 cup malunggay (moringa) leaves','1 thumb ginger, sliced','1 onion','4 cloves garlic','Fish sauce','2 stalks lemongrass','Water/broth'],steps:['Sauté garlic, onion, ginger. Add chicken and brown lightly.','Add lemongrass and fish sauce. Pour in 6 cups water/broth.','Simmer 20 min. Add papaya and cook 10 more min.','Add malunggay leaves last. Season and serve hot.'],tip:'Green papaya should still be firm when added. It will soften perfectly in the broth. Moringa leaves add incredible nutrition.'},
+ ],
+ related:['mango','guava','jackfruit','moringa','pineapple']},
+
+{id:'guava',cat:'fruit',emoji:'🍏',name:'Guava',sci:'Psidium guajava',
+ local:{tl:'Bayabas',es:'Guayaba',zh:'番石榴',hi:'अमरूद',fr:'Goyave'},
+ rarity:1,phNative:false,
+ desc:'A super-fruit rich in Vitamin C — 4× more than oranges! Leaves are used medicinally. Thrives across tropical regions.',
+ history:'Native to Mexico/Central America. Brought to Philippines by Spanish in 16th century. Now widely naturalized. Filipino folk medicine uses boiled guava leaves as antiseptic wound wash.',
+ tags:['tropical','vitamin-c','folk medicine','Mexico','Philippines'],
+ nutrition:{cal:68,protein:2.6,carbs:14,fat:1.0,fiber:5.4,sugar:8.9,gi:31},
+ vitamins:['Vitamin C (381%)','Vitamin A (12%)','Folate (12%)','Potassium (11%)','Lycopene','Vitamin K'],
+ medicinal:'Leaves contain tannins with antimicrobial properties; used as antiseptic wash for wounds, ulcers; fruit lowers blood sugar; antidiarrheal properties.',
+ toxicity:'Generally very safe. Excessive consumption may cause constipation due to high fiber. Seeds are edible but may be hard on sensitive stomachs.',
+ ecology:{role:'Pioneer species in disturbed habitats; invasive in some Pacific islands; fruit dispersed by birds and bats',pollinator:'Bees',soilImpact:'Can outcompete native plants; nitrogen-neutral',climate:'Tropical to subtropical, drought-tolerant'},
+ season:{peak:[7,8,9,10],partial:[6,11]},
+ cultivation:[
+   {title:'Propagation',desc:'Grow from seeds, cuttings, or air layers. Seeds germinate in 2–3 weeks. Air layering gives fruiting plants within 1–2 years.'},
+   {title:'Planting',desc:'Highly adaptable — grows in almost any soil type. Full sun. Space 5–6m apart. Drought-tolerant once established.'},
+   {title:'Pruning',desc:'Prune after harvest to encourage new fruiting wood. Maintain open canopy for airflow and light penetration.'},
+   {title:'Harvest',desc:'Harvest when skin changes from bright green to lighter green-yellow. Ripe guavas are fragrant and slightly soft.'},
+ ],
+ recipes:[
+   {name:'Guava Jam',time:'1 hr',servings:10,ingredients:['1 kg guava, halved','2 cups sugar','Juice of 1 lemon','1 cup water'],steps:['Simmer guavas in water 20 minutes until soft.','Press through strainer to remove seeds.','Return pulp to pan with sugar and lemon juice.','Stir over medium heat until mixture thickens and coats a spoon.','Pour into sterilized jars while hot.'],tip:'Test set by placing a small amount on a cold plate — if it wrinkles when pushed, it\'s ready.'},
+ ],
+ related:['passion-fruit','papaya','starfruit','avocado','guyabano']},
+
+{id:'jackfruit',cat:'fruit',emoji:'🟡',name:'Jackfruit',sci:'Artocarpus heterophyllus',
+ local:{tl:'Langka',es:'Jaca',zh:'菠萝蜜',hi:'कटहल',fr:'Jacque'},
+ rarity:2,phNative:true,
+ desc:'World\'s largest tree-borne fruit — up to 55 kg! Unripe jackfruit is a popular meat substitute. Sweet pods eaten ripe.',
+ history:'Native to the Western Ghats of India. Spread to Southeast Asia including Philippines over thousands of years through trade. National fruit of Bangladesh. Used widely in Filipino cuisine as "langka" in ginataang langka.',
+ tags:['tropical','largest fruit','meat substitute','India','Philippines'],
+ nutrition:{cal:95,protein:1.7,carbs:23,fat:0.6,fiber:1.5,sugar:19,gi:50},
+ vitamins:['Vitamin C (23%)','Vitamin B6 (25%)','Potassium (9%)','Magnesium (10%)','Riboflavin (11%)','Niacin'],
+ medicinal:'Root extract used traditionally for asthma and fever; leaves used to treat skin diseases; seeds are high in protein and used as a flour substitute.',
+ toxicity:'Seeds must be cooked — raw seeds contain antinutrients. Very large amounts may lower blood sugar (caution for diabetics on medication).',
+ ecology:{role:'Large canopy tree; provides shelter for birds and bats; fallen fruit feeds wildlife',pollinator:'Bees, wind',soilImpact:'Deep roots improve soil structure; leaf litter builds humus',climate:'Humid tropical'},
+ season:{peak:[3,4,5,6,7],partial:[2,8]},
+ cultivation:[
+   {title:'Seed Propagation',desc:'Fresh seeds germinate quickly (1–2 weeks). Plant immediately after removing from fruit — they lose viability fast.'},
+   {title:'Grafting',desc:'Graft superior cultivars onto seedling rootstock for reliable, faster fruiting. Top-grafting is common.'},
+   {title:'Spacing',desc:'Space 8–10m apart in full sun. Jackfruit has a large canopy and needs room to develop its massive fruits.'},
+   {title:'Fruiting',desc:'Fruits grow on main trunk and primary branches (cauliflory). Support very large fruits with nets to prevent falling damage.'},
+ ],
+ recipes:[
+   {name:'Ginataang Langka (Jackfruit in Coconut Milk)',time:'40 min',servings:6,ingredients:['500g young jackfruit, boiled & shredded','2 cups coconut milk','200g pork belly','3 cloves garlic','1 onion','2 tbsp bagoong','1 cup coconut cream','Salt & chili'],steps:['Boil jackfruit until tender, drain and shred.','Sauté garlic, onion, and pork belly.','Add bagoong and jackfruit, stir well.','Pour in coconut milk, simmer 15 min.','Add coconut cream, cook 5 more minutes.'],tip:'Young green jackfruit has a neutral flavor that absorbs coconut and bagoong perfectly. Pre-boiling removes the sticky latex.'},
+ ],
+ related:['durian','breadfruit','coconut','mango','lanzones']},
+
+{id:'calamansi',cat:'fruit',emoji:'🍋',name:'Calamansi',sci:'Citrofortunella microcarpa',
+ local:{tl:'Calamansi/Kalamansî',es:'Calamondin',zh:'四季橘',hi:'कलामांसी',fr:'Calamondin'},
+ rarity:2,phNative:true,
+ desc:'The quintessential Filipino citrus — tiny but intensely sour. Used as a condiment, in drinks, and as a skin brightener.',
+ history:'Believed to be a hybrid between kumquat and mandarin. Native to the Philippines and surrounding regions. Central to Filipino cuisine — the primary souring agent before vinegar or tamarind became common.',
+ tags:['citrus','sour','Philippines','condiment','vitamin c'],
+ nutrition:{cal:30,protein:0.7,carbs:9,fat:0.1,fiber:1.5,sugar:5,gi:35},
+ vitamins:['Vitamin C (90%)','Citric acid','Flavonoids','Vitamin A','Folate'],
+ medicinal:'High Vitamin C boosts immunity; citric acid aids iron absorption; juice used topically for skin whitening and acne; traditional cough remedy with honey.',
+ toxicity:'Very acidic — excess consumption may erode tooth enamel or irritate acid reflux. Skin can cause photosensitivity rash.',
+ ecology:{role:'Compact shrub; flowers attract bees; grown in home gardens throughout Philippines',pollinator:'Bees, insects',soilImpact:'Slightly acidifies surrounding soil',climate:'Tropical, also tolerates subtropical'},
+ season:{peak:[9,10,11,12,1],partial:[2,8]},
+ cultivation:[
+   {title:'Propagation',desc:'Grow from seeds, cuttings, or budding. Cuttings root in 4–6 weeks with rooting hormone. Fastest fruiting from grafted plants.'},
+   {title:'Container Growing',desc:'Ideal for pots! Grows well in containers — perfect for balconies and small gardens. Use well-draining potting mix.'},
+   {title:'Pruning',desc:'Prune after fruiting to maintain shape and encourage new growth. Remove crossing branches for airflow.'},
+   {title:'Harvest',desc:'Pick when fully sized but still green-yellow. They turn orange when fully ripe but are traditionally used green-yellow for maximum sourness.'},
+ ],
+ recipes:[
+   {name:'Calamansi Juice (Pang Araw-Araw)',time:'5 min',servings:2,ingredients:['20 calamansi fruits','4 cups cold water','3–4 tbsp sugar or honey','Ice cubes','Pinch of salt'],steps:['Halve calamansi and squeeze juice into pitcher.','Add water, sweetener, and salt.','Stir until dissolved. Taste and adjust.','Serve over ice.'],tip:'Roll calamansi on the counter before cutting — releases more juice. A pinch of salt brings out the flavor dramatically.'},
+ ],
+ related:['guava','mango','tamarind','starfruit','pomelo']},
+
+{id:'durian',cat:'fruit',emoji:'🌵',name:'Durian',sci:'Durio zibethinus',
+ local:{tl:'Durian',ms:'Durian',th:'ทุเรียน',id:'Durian',zh:'榴莲'},
+ rarity:3,phNative:true,
+ desc:'The "King of Fruits" in Southeast Asia — notorious for its powerful odor but beloved for its rich, custard-like flesh. Banned on public transport across Southeast Asia.',
+ history:'Native to Borneo and Sumatra. Cultivated for thousands of years in Southeast Asia. Davao City in the Philippines is the durian capital of the country, producing varieties like Puyat and Arancillo.',
+ tags:['exotic','pungent','Philippines','Davao','controversial'],
+ nutrition:{cal:147,protein:1.5,carbs:27,fat:5.3,fiber:3.8,sugar:20,gi:49},
+ vitamins:['Vitamin C (33%)','Vitamin B6 (25%)','Potassium (18%)','Manganese (39%)','Copper (21%)','Folate (22%)'],
+ medicinal:'High in antioxidants; tryptophan content may support sleep; traditionally used as aphrodisiac in Southeast Asia; root bark used for fever treatment.',
+ toxicity:'Do NOT consume with alcohol — compounds inhibit aldehyde dehydrogenase, causing severe reactions. Banned in many hotels and public transport due to odor.',
+ ecology:{role:'Large forest tree; fruit eaten by orangutans, elephants, and tigers in wild; seeds dispersed by megafauna',pollinator:'Cave fruit bats (critical pollinator)',soilImpact:'Neutral; contributes large amounts of organic matter',climate:'Humid tropical lowlands'},
+ season:{peak:[6,7,8,9],partial:[5,10]},
+ cultivation:[
+   {title:'Site Selection',desc:'Deep, fertile, well-drained soil. pH 6–7. Full sun with wind protection. Needs high humidity. Elevation below 800m.'},
+   {title:'Propagation',desc:'Graft or bud for true-to-type varieties. Seeds germinate fast but produce variable fruit quality. Avoid seed propagation commercially.'},
+   {title:'Pollination Management',desc:'Bat pollination is critical — avoid pesticide use near flowering. Hand-pollination can improve yield significantly.'},
+   {title:'Thinning',desc:'Remove weak fruitlets to concentrate plant energy on fewer, larger, better-quality fruits.'},
+   {title:'Harvest',desc:'Durian falls when fully ripe — dangerous! Net under trees or harvest early (cut before natural fall). Ripe fruit emits strong aroma.'},
+ ],
+ recipes:[
+   {name:'Durian Ice Cream',time:'6 hrs',servings:6,ingredients:['2 cups durian flesh','1 cup coconut cream','1 cup heavy cream','½ cup condensed milk','¼ tsp salt'],steps:['Blend durian flesh until smooth.','Whip heavy cream to soft peaks.','Fold in coconut cream, condensed milk, and durian.','Add salt. Pour into container and freeze 6 hours.','Scoop and serve.'],tip:'No ice cream machine needed! The fat from coconut cream prevents ice crystals. Adjust sweetness — ripe durian is already very sweet.'},
+ ],
+ related:['jackfruit','mango','lanzones','mangosteen','rambutan']},
+
+{id:'dragon-fruit',cat:'fruit',emoji:'🐉',name:'Dragon Fruit',sci:'Selenicereus undatus',
+ local:{tl:'Pitaya',es:'Pitahaya',zh:'火龙果',vi:'Thanh long',th:'แก้วมังกร'},
+ rarity:2,phNative:false,
+ desc:'A stunning cactus fruit with bright magenta skin and white or red speckled flesh. Blooms only at night — flowers last just one night.',
+ history:'Native to Mexico and Central America. Brought to Vietnam by the French in the 19th century, where it became a major export crop. Introduced to Philippines in the 1990s and now cultivated in Ilocos, Pangasinan, and Mindanao.',
+ tags:['cactus','night-blooming','Mexico','tropical','antioxidant'],
+ nutrition:{cal:60,protein:1.2,carbs:13,fat:0,fiber:3,sugar:9,gi:48},
+ vitamins:['Vitamin C (9%)','Iron (8%)','Magnesium (7%)','Lycopene (red variety)','Betacyanin','Carotenoids'],
+ medicinal:'Betacyanin antioxidants in red flesh; prebiotic fiber supports gut microbiome; traditionally used for blood sugar management; high antioxidant content fights free radicals.',
+ toxicity:'Generally safe. Red-fleshed variety can turn urine and stool red (harmless — called pseudohematuria). No known serious toxicity.',
+ ecology:{role:'Cactus that grows on other plants (epiphytic); night-blooming attracts hawk moths and bats for pollination',pollinator:'Hawk moths, bats (nocturnal)',soilImpact:'Desert/rocky soil adapted; improves sandy soil structure',climate:'Arid to tropical, drought-tolerant'},
+ season:{peak:[5,6,7,8,9,10],partial:[4,11]},
+ cultivation:[
+   {title:'Cutting Propagation',desc:'Cut stem segments 30–40cm long. Dry cut end 3–5 days to callous, then plant in sandy/cactus mix. No rooting hormone needed.'},
+   {title:'Trellis Setup',desc:'Dragon fruit climbs — install concrete or wooden posts 2m high with a tire or platform on top. One post per plant.'},
+   {title:'Pollination',desc:'Flowers open only one night. Hand-pollinate at night with a brush for guaranteed fruit set. Natural bat/moth pollination works in rural areas.'},
+   {title:'Watering',desc:'Water only when soil is dry. Overwatering is the #1 cause of death. Drip irrigation is ideal.'},
+   {title:'Harvest',desc:'Fruit is ready 30–50 days after flowering. Harvest when skin is uniformly colored and "wings" start to wither.'},
+ ],
+ recipes:[
+   {name:'Dragon Fruit Smoothie Bowl',time:'10 min',servings:2,ingredients:['2 red dragon fruits, peeled & frozen','1 frozen banana','½ cup coconut milk','Toppings: granola, honey, kiwi, mango'],steps:['Blend frozen dragon fruit and banana with coconut milk until thick.','Pour into bowls — mixture should be thick enough to hold toppings.','Arrange toppings decoratively and drizzle with honey.'],tip:'The smoothie base should be thick — almost scoopable. Use as little liquid as possible for best texture.'},
+ ],
+ related:['starfruit','passion-fruit','kiwi','mango','guava']},
+
+{id:'passion-fruit',cat:'fruit',emoji:'💜',name:'Passion Fruit',sci:'Passiflora edulis',
+ local:{tl:'Maracuyá/Passion fruit',es:'Maracuyá',zh:'西番莲',pt:'Maracujá',fr:'Fruit de la passion'},
+ rarity:2,phNative:false,
+ desc:'A stunning vine fruit with intensely aromatic, tangy-sweet pulp. The flower is one of nature\'s most complex and beautiful.',
+ history:'Native to Brazil, Paraguay, and Argentina. Introduced to Hawaii in the 1880s, then spread globally. Grown in the Philippines in Mountain Province, Benguet, and other cool highland areas.',
+ tags:['vine','aromatic','Brazil','highlands','antioxidant'],
+ nutrition:{cal:97,protein:2.2,carbs:23,fat:0.7,fiber:10,sugar:11,gi:30},
+ vitamins:['Vitamin C (36%)','Vitamin A (21%)','Iron (20%)','Potassium (12%)','Magnesium (8%)','Riboflavin (11%)'],
+ medicinal:'High fiber supports digestive health; piceatannol compound may improve insulin sensitivity; traditionally used as a mild sedative and for anxiety relief; good for blood pressure due to potassium.',
+ toxicity:'Unripe passion fruit skin contains cyanogenic glycosides — do not eat unripe skin. Passiflora caerulea (blue passion flower) leaves are toxic.',
+ ecology:{role:'Vine that climbs trees using tendrils; flowers attract carpenter bees; fruit eaten by birds and bats',pollinator:'Large bees (carpenter bees primarily)',soilImpact:'Neutral; fixes minor amounts of nitrogen',climate:'Tropical to subtropical highlands'},
+ season:{peak:[4,5,6,7,8],partial:[3,9]},
+ cultivation:[
+   {title:'Trellis Preparation',desc:'Build a strong wire trellis — passion fruit vines become heavy. Horizontal wires at 50cm intervals work best.'},
+   {title:'Planting',desc:'Plant seeds or rooted cuttings in well-drained slightly acidic soil (pH 6–6.5). Full sun. Space 3–5m apart.'},
+   {title:'Training',desc:'Train single main stem up a stake to trellis. Let horizontal runners spread on wires. Prune for airflow.'},
+   {title:'Pollination',desc:'Self-incompatible — plant at least 2 different vines for cross-pollination. Hand-pollinate with a brush in the morning.'},
+   {title:'Harvest',desc:'Fruit falls when ripe or wrinkles on vine. Wrinkled fruits are actually sweeter — more concentrated sugars.'},
+ ],
+ recipes:[
+   {name:'Passion Fruit Curd',time:'20 min',servings:8,ingredients:['6 passion fruits (pulp & seeds)','3 eggs','½ cup sugar','4 tbsp butter','Juice of 1 lemon'],steps:['Push passion fruit through sieve to remove seeds (keep a few for texture).','Whisk eggs and sugar in double boiler.','Add passion fruit juice, lemon, and butter.','Stir continuously over simmering water until thick.','Cool and store in jars.'],tip:'The curd thickens as it cools. Use on toast, pavlova, or as a filling for tarts.'},
+ ],
+ related:['dragon-fruit','guava','starfruit','mango','kiwi']},
+
+{id:'lanzones',cat:'fruit',emoji:'🫐',name:'Lanzones',sci:'Lansium parasiticum',
+ local:{tl:'Lanzones',ms:'Duku',id:'Langsat',th:'ลางสาด',my:'Longkong'},
+ rarity:2,phNative:true,
+ desc:'Small clusters of sweet-tart translucent fruit. Camiguin island is famous for its uniquely sweet seedless variety. Celebrated with an annual Lanzones Festival.',
+ history:'Native to Southeast Asia (Malay Peninsula and Borneo). Brought to Luzon in the Philippines in pre-colonial times. The Lanzones Festival of Camiguin is held every October, celebrating the fruit that transformed the province from bitter-fruited to sweet after reportedly being blessed by a missionary.',
+ tags:['Philippines','Camiguin','clusters','festival','sweet'],
+ nutrition:{cal:57,protein:1,carbs:14,fat:0.2,fiber:0.8,sugar:11,gi:40},
+ vitamins:['Vitamin B2','Vitamin B3','Thiamine','Phosphorus','Potassium','Calcium'],
+ medicinal:'Bark and seeds used in traditional medicine as anti-malarial; bark extract used to treat scorpion stings; seed powder used for fever and diarrhea.',
+ toxicity:'Bitter seeds — avoid eating. Skin is not typically eaten. Bark contains a milky latex that may irritate skin.',
+ ecology:{role:'Understory tree in tropical forests; fruit eaten by monkeys, bats, and birds who disperse seeds',pollinator:'Small insects',soilImpact:'Neutral; enriches forest floor with leaf litter',climate:'Humid lowland tropics'},
+ season:{peak:[9,10,11],partial:[8,12]},
+ cultivation:[
+   {title:'Propagation',desc:'Grown from seeds (slow — 8–12 years to fruit) or by grafting/air-layering for faster fruiting (4–6 years).'},
+   {title:'Shade Requirement',desc:'Unique among tropical fruit trees — Lanzones requires partial shade especially when young. Plant under taller trees.'},
+   {title:'Soil',desc:'Rich, well-drained loamy soil with high organic matter. pH 5.5–6.5. Cannot tolerate waterlogging.'},
+   {title:'Patience',desc:'Lanzones is notoriously slow. Commercial orchards take 10+ years to reach peak production. Worth the wait.'},
+ ],
+ recipes:[
+   {name:'Lanzones Jam',time:'45 min',servings:8,ingredients:['1 kg lanzones, peeled & seeded','1½ cups sugar','Juice of 1 lemon','½ cup water'],steps:['Simmer lanzones in water 15 minutes until soft.','Mash roughly. Add sugar and lemon juice.','Cook over medium heat stirring until jam consistency.','Pour into sterilized jars.'],tip:'The natural pectin in lanzones sets well without additional thickeners. Use immediately or process for longer shelf life.'},
+ ],
+ related:['rambutan','mangosteen','longan','lychee','santol']},
+
+{id:'mangosteen',cat:'fruit',emoji:'🟣',name:'Mangosteen',sci:'Garcinia mangostana',
+ local:{tl:'Mangosteen',ms:'Manggis',th:'มังคุด',id:'Manggis',zh:'山竹'},
+ rarity:3,phNative:true,
+ desc:'The "Queen of Fruits." Deep purple rind reveals snow-white segments of sublime sweetness. Cannot be grown outside humid tropics.',
+ history:'Native to Southeast Asia — possibly originated in Sunda Islands. Has been cultivated for thousands of years in the Malay Archipelago. Its demanding climate needs mean it cannot be grown in most of the world, making it a prized delicacy globally.',
+ tags:['exotic','queen of fruits','xanthones','antioxidant','Philippines'],
+ nutrition:{cal:73,protein:0.4,carbs:18,fat:0.6,fiber:1.8,sugar:15,gi:45},
+ vitamins:['Vitamin C (12%)','Folate (5%)','Thiamine (7%)','Manganese (5%)','Xanthones (powerful antioxidants)'],
+ medicinal:'Xanthones in rind are among most potent plant antioxidants; anti-inflammatory; traditional treatment for dysentery, skin infections; rind tea used for fever.',
+ toxicity:'Rind contains tannins that may inhibit iron absorption. Excessive supplement extracts may have anticoagulant effects.',
+ ecology:{role:'Slow-growing canopy tree; long-lived (over 100 years); fruit eaten by hornbills, birds and monkeys',pollinator:'Apomixis (self-produces without pollination)',soilImpact:'Deep roots; leaf litter very slowly decomposes',climate:'Strictly humid lowland tropical'},
+ season:{peak:[5,6,7,8],partial:[4,9]},
+ cultivation:[
+   {title:'Climate Requirements',desc:'Extremely strict — needs consistent rain, high humidity, no drought, no frost, elevation below 500m. Fails outside ideal tropics.'},
+   {title:'Seed Propagation',desc:'Seeds are polyembryonic (apomictic). Plant fresh seeds immediately — they die quickly. Germination takes 2–4 weeks.'},
+   {title:'Very Slow Growth',desc:'Mangosteen takes 8–15 years to bear fruit. This is non-negotiable. There is no shortcut. Grafting helps (5–7 years).'},
+   {title:'Shade When Young',desc:'Young mangosteen plants need 50–70% shade for the first 2–3 years. Gradually reduce shade as they mature.'},
+ ],
+ recipes:[
+   {name:'Mangosteen Sorbet',time:'4 hrs',servings:4,ingredients:['8 mangosteens, peeled & segmented','½ cup sugar syrup','Juice of 1 lime','Pinch of salt'],steps:['Blend mangosteen segments until smooth.','Mix with simple syrup, lime juice, and salt.','Pour into freezer container. Freeze 1 hour.','Stir/fork scrape. Repeat every 30 min for 3 hours for granita texture, or blend then refreeze for sorbet.'],tip:'Mangosteen flavor is delicate — do not over-sweeten. The balance of sweet and slightly tart is what makes it magical.'},
+ ],
+ related:['lanzones','rambutan','durian','longan','lychee']},
+
+// ===================== PLANTS / VEGETABLES =====================
+{id:'moringa',cat:'plant',emoji:'🌿',name:'Moringa',sci:'Moringa oleifera',
+ local:{tl:'Malunggay',es:'Moringa',hi:'सहजन',sw:'Mlonge',fr:'Moringa'},
+ rarity:1,phNative:false,
+ desc:'Called the "Miracle Tree" — leaves have more Vitamin C than oranges, more Vitamin A than carrots, more calcium than milk. A nutritional powerhouse.',
+ history:'Native to the Himalayan foothills of northwestern India. Spread throughout Asia and Africa for millennia. Introduced to Philippines centuries ago; now so integrated into cuisine that many consider it native. Used extensively in Philippine breastfeeding nutrition.',
+ tags:['superfood','miracle tree','India','Philippines','nutrition'],
+ nutrition:{cal:64,protein:9.4,carbs:8.3,fat:1.4,fiber:3.2,sugar:2,gi:20},
+ vitamins:['Vitamin C (157%)','Vitamin A (47%)','Calcium (17%)','Iron (31%)','Potassium (9%)','Magnesium (27%)','Vitamin B6 (19%)'],
+ medicinal:'Anti-inflammatory isothiocyanates; antidiabetic properties; traditionally used to increase breast milk production; antimicrobial compounds; seeds can purify water.',
+ toxicity:'Root and root bark contain spirochin — potentially toxic in large amounts. Leaves and pods are safe. Avoid root supplements.',
+ ecology:{role:'Fast-growing pioneer tree; nitrogen-fixer; drought-resistant; provides habitat and shade quickly',pollinator:'Bees, insects',soilImpact:'Nitrogen-fixing; deep taproot improves soil structure; drought-tolerant pioneer',climate:'Tropical to subtropical; drought-tolerant'},
+ season:{peak:[1,2,3,4,5,6,7,8,9,10,11,12],partial:[]},
+ cultivation:[
+   {title:'Growing from Cuttings',desc:'Take hardwood cuttings 1–2m long, 5–10cm diameter. Plant directly in ground — no rooting needed. Fastest method.'},
+   {title:'From Seed',desc:'Plant seeds directly or in small pots. Germination in 1–2 weeks. Grows fast — can harvest leaves in 2–3 months.'},
+   {title:'Pruning for Leaves',desc:'Cut stems back to 50cm every 2–3 months to encourage bushier growth and more leaf production. Don\'t let it grow tall if harvesting leaves.'},
+   {title:'Harvest',desc:'Harvest young leaves and tender stems continuously. Older leaves are tougher. Dry leaves at low heat to preserve nutrition.'},
+ ],
+ recipes:[
+   {name:'Tinolang Manok with Malunggay',time:'45 min',servings:6,ingredients:['1 kg chicken pieces','2 cups moringa leaves','1 green papaya, cubed','Ginger, garlic, onion','Fish sauce','Lemongrass','5 cups chicken broth'],steps:['Sauté ginger, garlic, onion. Add chicken.','Pour in broth and lemongrass. Simmer 20 min.','Add papaya, cook 10 min.','Add moringa leaves last 2 minutes — just wilted.','Season with fish sauce.'],tip:'Never boil moringa leaves — heat-sensitive vitamins will be destroyed. Add in the last 2 minutes off heat.'},
+ ],
+ related:['spinach','kangkong','papaya','ginger','turmeric']},
+
+{id:'kangkong',cat:'plant',emoji:'🥬',name:'Water Spinach',sci:'Ipomoea aquatica',
+ local:{tl:'Kangkong',ms:'Kangkung',zh:'空心菜',th:'ผักบุ้ง',id:'Kangkung'},
+ rarity:1,phNative:false,
+ desc:'A semi-aquatic leafy vegetable beloved across Southeast Asia. Grows in water or moist soil. Fast-growing and highly nutritious.',
+ history:'Native to India and Southeast Asia. Cultivated for thousands of years in China and Southeast Asia. Introduced to the Philippines in pre-colonial times. Stigmatized in older Philippine society as "poor man\'s vegetable" but now recognized as a nutrient powerhouse.',
+ tags:['leafy','aquatic','Southeast Asia','iron','Philippines'],
+ nutrition:{cal:19,protein:2.6,carbs:3.1,fat:0.2,fiber:2.1,sugar:0.5,gi:15},
+ vitamins:['Vitamin A (102%)','Vitamin C (88%)','Iron (15%)','Calcium (8%)','Vitamin B6','Folate'],
+ medicinal:'High iron treats anemia; Vitamin A supports eye health; traditionally used for fever reduction; diuretic properties; excellent for pregnant women due to folate content.',
+ toxicity:'Can accumulate heavy metals if grown in contaminated water — source from clean farms. May cause allergic reaction in rare cases.',
+ ecology:{role:'Aquatic pioneer; stabilizes waterways; provides habitat for small fish and aquatic insects',pollinator:'Bees, butterflies',soilImpact:'Removes excess nutrients from water (phytoremediation); can be invasive in non-native waterways',climate:'Tropical, needs water access'},
+ season:{peak:[1,2,3,4,5,6,7,8,9,10,11,12],partial:[]},
+ cultivation:[
+   {title:'Water Growing',desc:'Grow in shallow water channels or flooded beds. Just press cuttings into mud — they root and grow fast. Harvest continuously.'},
+   {title:'Soil Growing',desc:'Grows in regular moist garden beds too. Regular watering essential. Harvest outer stems, leaving inner to regrow.'},
+   {title:'Continuous Harvest',desc:'Cut stems 5cm above base — plants regrow quickly. New shoots appear within days in warm tropical conditions.'},
+ ],
+ recipes:[
+   {name:'Adobong Kangkong',time:'10 min',servings:4,ingredients:['1 bunch kangkong','4 cloves garlic, crushed','2 tbsp soy sauce','1 tbsp vinegar','Salt & pepper','Oil'],steps:['Heat oil, sauté garlic until golden.','Add soy sauce and vinegar — let boil briefly.','Add kangkong stems first (30 sec), then leaves.','Toss quickly — cook just until wilted.','Season and serve immediately.'],tip:'Kangkong cooks in under 2 minutes. Overcooking makes it slimy. The stems and leaves cook at different rates.'},
+ ],
+ related:['spinach','moringa','bitter-melon','eggplant','okra']},
+
+{id:'bitter-melon',cat:'plant',emoji:'🥒',name:'Bitter Melon',sci:'Momordica charantia',
+ local:{tl:'Ampalaya',es:'Melón amargo',zh:'苦瓜',hi:'करेला',ja:'ゴーヤ'},
+ rarity:1,phNative:false,
+ desc:'Famously bitter, beloved in Philippine cuisine. One of the most medicinally studied vegetables — proven to lower blood sugar.',
+ history:'Origin debated between India and China. Cultivated in tropical Asia for over 600 years. In the Philippines (ampalaya), it is a staple vegetable and medicinal plant — the Department of Health recognizes it as one of ten herbal medicines for diabetes management.',
+ tags:['bitter','medicinal','diabetes','India','Philippines'],
+ nutrition:{cal:17,protein:1,carbs:3.7,fat:0.2,fiber:2.8,sugar:1.5,gi:20},
+ vitamins:['Vitamin C (93%)','Vitamin A (6%)','Folate (14%)','Iron (4%)','Zinc (5%)','Potassium'],
+ medicinal:'Charantin lowers blood glucose; polypeptide-p acts like insulin; Vitamin C boosts immunity; traditionally used in Philippines as DOH-recognized herbal medicine for Type 2 diabetes management.',
+ toxicity:'Seeds of mature bitter melon contain vicine — toxic especially to children. Red seeds inside mature fruits are poisonous. Avoid during pregnancy (may cause uterine contractions).',
+ ecology:{role:'Climbing vine that provides shade; flowers attract pollinators; mature red fruits feed birds',pollinator:'Bees, ants',soilImpact:'Neutral; fast decomposing organic matter',climate:'Tropical, tolerates heat well'},
+ season:{peak:[3,4,5,6,7,8],partial:[2,9]},
+ cultivation:[
+   {title:'Seed Soaking',desc:'Soak seeds in warm water 24 hours to improve germination. Germination takes 7–14 days. Seeds are viable 2–3 years.'},
+   {title:'Trellis',desc:'Set up trellis before planting — vines grow fast. Horizontal wires or netting at 1.5–2m height.'},
+   {title:'Fertilizing',desc:'Nitrogen-rich fertilizer early growth; shift to phosphorus/potassium at flowering. Avoid excess nitrogen at fruiting (causes leaf growth over fruit).'},
+   {title:'Harvest',desc:'Harvest when fruits are bright green and firm — do not let turn yellow (seeds become toxic). Harvest every 2–3 days.'},
+ ],
+ recipes:[
+   {name:'Ginisang Ampalaya (Sautéed Bitter Melon)',time:'20 min',servings:4,ingredients:['2 bitter melons, sliced','3 eggs, beaten','1 tomato, chopped','1 onion, sliced','4 cloves garlic','2 tbsp fish sauce (patis)','Oil','Salt'],steps:['Salt bitter melon slices, squeeze out liquid (reduces bitterness).','Sauté garlic, onion, tomato.','Add bitter melon and stir-fry 3 minutes.','Push to side, scramble eggs in center, then mix together.','Season with fish sauce.'],tip:'Salting and squeezing is the key to controlling bitterness. For even less bitterness, blanch in boiling salted water for 2 min first.'},
+ ],
+ related:['kangkong','squash','okra','eggplant','moringa']},
+
+{id:'ginger',cat:'plant',emoji:'🫚',name:'Ginger',sci:'Zingiber officinale',
+ local:{tl:'Luya',es:'Jengibre',zh:'姜',hi:'अदरक',ja:'生姜'},
+ rarity:1,phNative:false,
+ desc:'One of the world\'s most important culinary and medicinal rhizomes. Used in every cuisine on Earth. The ginger plant is actually a tropical flowering herb.',
+ history:'Originated in Maritime Southeast Asia. One of the first spices exported from Asia to Europe, traded by Arab merchants. By the 9th century, it was traded throughout the Roman Empire. Today it\'s cultivated in India, China, Nigeria, Ethiopia, and the Philippines.',
+ tags:['rhizome','medicinal','spice','India','universal'],
+ nutrition:{cal:80,protein:1.8,carbs:18,fat:0.8,fiber:2,sugar:1.7,gi:15},
+ vitamins:['Magnesium (12%)','Potassium (9%)','Copper (11%)','Manganese (13%)','Vitamin B6 (13%)','Phosphorus'],
+ medicinal:'Gingerols and shogaols are anti-nausea; anti-inflammatory equal to some NSAIDs in studies; antidiabetic; antibacterial; traditional treatment for colds (salabat in Philippines) and morning sickness.',
+ toxicity:'High doses (>5g daily) may cause heartburn or irritate GI tract. May interact with blood thinners. Avoid medicinal doses during late pregnancy.',
+ ecology:{role:'Forest understory plant; flowers attract bees; rhizomes shared through human cultivation globally',pollinator:'Bees, insects',soilImpact:'Neutral; allelopathic to some weeds',climate:'Tropical humid; tolerates shade'},
+ season:{peak:[10,11,12,1,2],partial:[3,9]},
+ cultivation:[
+   {title:'Rhizome Selection',desc:'Choose fresh, plump rhizomes with visible "eyes" (growth buds). Organic ginger from markets works. Let dry 1–2 days before planting.'},
+   {title:'Planting',desc:'Plant 5–10cm deep in loose, well-drained rich soil. Partial shade is fine. Space 20cm apart. Plant horizontally with eyes facing up.'},
+   {title:'Mulching',desc:'Mulch heavily — keeps soil moist, cool, and weed-free. Ginger needs consistent moisture but not waterlogging.'},
+   {title:'Harvest',desc:'Harvest young ginger (green ginger) at 4–5 months — milder flavor. Mature ginger at 8–10 months when leaves turn yellow. Dig whole clumps.'},
+ ],
+ recipes:[
+   {name:'Salabat (Filipino Ginger Tea)',time:'15 min',servings:4,ingredients:['100g fresh ginger, sliced thin','4 cups water','3 tbsp brown sugar or honey','Juice of 2 calamansi'],steps:['Simmer ginger in water 10 minutes (longer for stronger flavor).','Strain into cups.','Add sugar/honey and calamansi juice.','Serve hot. Great for colds and sore throat.'],tip:'Do not boil vigorously — a gentle simmer extracts flavor without bitterness. Fresh ginger always beats powdered for this.'},
+ ],
+ related:['turmeric','lemongrass','garlic','galangal','moringa']},
+
+{id:'turmeric',cat:'plant',emoji:'🟡',name:'Turmeric',sci:'Curcuma longa',
+ local:{tl:'Luyang dilaw',es:'Cúrcuma',zh:'姜黄',hi:'हल्दी',ar:'كركم'},
+ rarity:1,phNative:false,
+ desc:'The golden spice with ancient medicinal roots. Curcumin, its active compound, is one of the most studied natural anti-inflammatories in science.',
+ history:'Cultivated in India for over 4,500 years. Used in Ayurveda for millennia. Arab traders brought turmeric to Europe in the 13th century. Sacred in Hinduism — used in wedding ceremonies and religious rites. Now a global "golden milk" health trend.',
+ tags:['rhizome','anti-inflammatory','India','Ayurveda','superfood'],
+ nutrition:{cal:312,protein:9.7,carbs:67,fat:3.3,fiber:21,sugar:3.2,gi:15},
+ vitamins:['Iron (52%)','Manganese (340%)','Vitamin B6 (38%)','Curcuminoids (active compound)','Potassium (38%)'],
+ medicinal:'Curcumin is a powerful anti-inflammatory (comparable to some drugs); antioxidant; studied for cancer prevention; improves brain function (BDNF); reduces arthritis symptoms. Bioavailability enhanced by black pepper (piperine).',
+ toxicity:'High doses may cause GI upset. May inhibit blood clotting — avoid before surgery. Large amounts may be problematic for gallbladder issues.',
+ ecology:{role:'Tropical understory herb; rhizomes traded globally for millennia; allelopathic to some soil pathogens',pollinator:'Bees, insects',soilImpact:'Antimicrobial rhizome secretions may improve soil health',climate:'Tropical humid, partial shade tolerant'},
+ season:{peak:[10,11,12,1],partial:[9,2]},
+ cultivation:[
+   {title:'Propagation',desc:'Plant rhizome pieces 5cm long with at least one bud. Dry cut surface 1–2 days first. Plant 7cm deep.'},
+   {title:'Growing Conditions',desc:'Partial shade to full sun. Moist, well-drained rich soil. pH 5.5–7. High humidity preferred.'},
+   {title:'Harvest',desc:'Leaves yellow and die back at harvest time (8–10 months). Dig entire clump, select best rhizomes to replant.'},
+   {title:'Processing',desc:'Boil fresh rhizomes 45 min, dry in sun 10–15 days, then grind to powder. This creates the curcumin-rich spice.'},
+ ],
+ recipes:[
+   {name:'Golden Milk (Anti-inflammatory Latte)',time:'10 min',servings:2,ingredients:['2 cups milk (any type)','1 tsp turmeric powder','½ tsp cinnamon','¼ tsp ginger powder','Pinch of black pepper','1 tsp honey'],steps:['Warm milk in saucepan over medium-low heat.','Whisk in turmeric, cinnamon, ginger, and black pepper.','Heat until steaming — do not boil.','Add honey. Pour into cups and serve.'],tip:'Black pepper is NON-OPTIONAL — piperine increases curcumin absorption by 2000%. Without it, most curcumin passes unabsorbed.'},
+ ],
+ related:['ginger','galangal','lemongrass','cinnamon','black-pepper']},
+
+// ===================== TREES =====================
+{id:'narra',cat:'tree',emoji:'🌳',name:'Narra',sci:'Pterocarpus indicus',
+ local:{tl:'Narra',ms:'Angsana',id:'Angsana',th:'เกด',my:'Padauk'},
+ rarity:2,phNative:true,
+ desc:'The national tree of the Philippines. Prized for its deep reddish-gold timber. Produces beautiful yellow flowers and winged seed pods.',
+ history:'A prized timber tree throughout Southeast Asia. Declared national tree of the Philippines in 1934. The wood was historically used to build houses, furniture, and boats. Spanish galleons were often caulked with narra. Now protected due to overharvesting.',
+ tags:['national tree','Philippines','timber','endangered','protected'],
+ nutrition:{cal:0,protein:0,carbs:0,fat:0,fiber:0,sugar:0,gi:0},
+ vitamins:['N/A — timber tree'],
+ medicinal:'Bark decoction used for skin diseases and as astringent; leaves used as poultice for wounds; heartwood extract has anti-inflammatory properties; used in traditional medicine for rheumatism.',
+ toxicity:'Wood dust may cause respiratory irritation. Sawdust is a known allergen for some woodworkers.',
+ ecology:{role:'Nitrogen-fixing timber tree; canopy provides habitat for birds and insects; winged seeds dispersed by wind',pollinator:'Bees — flowers produce abundant nectar',soilImpact:'Nitrogen-fixer; significantly enriches soil; deep root system prevents erosion',climate:'Tropical monsoon, deciduous in dry season'},
+ season:{peak:[3,4,5],partial:[2,6]},
+ cultivation:[
+   {title:'Seed Collection',desc:'Collect winged seed pods from mature trees. Seeds have low viability — plant fresh seeds immediately after collection.'},
+   {title:'Nursery Raising',desc:'Germinate in shaded nursery beds. Transplant seedlings to individual containers when 15cm tall. Harden before outplanting.'},
+   {title:'Site Planting',desc:'Plant in full sun, well-drained soil. Space 8–10m for timber production. 5–6m for shade/reforestation.'},
+   {title:'Protection',desc:'As a protected species, requires permits for commercial planting and harvesting in the Philippines. Promote in reforestation programs.'},
+ ],
+ recipes:[],
+ related:['molave','acacia','mahogany','ipil','kamagong']},
+
+{id:'baobab',cat:'tree',emoji:'🌴',name:'Baobab',sci:'Adansonia digitata',
+ local:{tl:'Baobab',sw:'Mbuyu',fr:'Baobab',ar:'القرد خبز',wo:'Buy'},
+ rarity:4,phNative:false,
+ desc:'The "Tree of Life" of Africa. Can live for 3,000+ years and store thousands of liters of water in its massive trunk. Fruit has more Vitamin C than oranges.',
+ history:'Native to mainland Africa, Madagascar, and the Arabian Peninsula. Sacred in many African cultures — communities gather around baobab trees for meetings and ceremonies. Introduced to Southeast Asia by Arab traders. Now gaining global attention as a superfood.',
+ tags:['Africa','ancient','superfood','water storage','sacred'],
+ nutrition:{cal:250,protein:3.1,carbs:74,fat:0.5,fiber:45,sugar:25,gi:28},
+ vitamins:['Vitamin C (500%)','Calcium (29%)','Iron (15%)','Potassium (19%)','Magnesium (26%)','Vitamin B6'],
+ medicinal:'Highest Vitamin C of any fruit; anti-inflammatory polyphenols; prebiotic fiber supports gut microbiome; bark used for malaria and fever in African medicine; leaves used to treat infections.',
+ toxicity:'Fruit pulp and leaves are safe. Seeds may cause digestive upset in large amounts. Raw baobab oil for external use only.',
+ ecology:{role:'Ecosystem cornerstone — hundreds of species depend on baobab for food and shelter; hollow trunks store water for animals',pollinator:'Fruit bats (primary), insects',soilImpact:'Deep taproot stabilizes soil in arid areas; leaffall enriches dry soils',climate:'Semi-arid to arid; highly drought-tolerant'},
+ season:{peak:[5,6,7,8,9],partial:[4,10]},
+ cultivation:[
+   {title:'Seed Treatment',desc:'Seeds have very hard coats — scarify (scratch) with sandpaper or soak in hot water 24 hours before planting.'},
+   {title:'Slow Growth',desc:'Baobab grows very slowly in the first 10 years. Patience is essential. They live for thousands of years once established.'},
+   {title:'Drought Tolerance',desc:'Once established, requires minimal irrigation. Overwatering is a common killer. Sandy, alkaline soil is preferred.'},
+ ],
+ recipes:[
+   {name:'Baobab Smoothie',time:'5 min',servings:2,ingredients:['2 tbsp baobab powder','2 cups mango juice','1 banana','½ cup yogurt','1 tsp honey'],steps:['Blend all ingredients until smooth.','Pour into glasses and serve immediately.'],tip:'Baobab powder is very tart — balance with sweet fruits. Start with 1 tbsp if new to the flavor.'},
+ ],
+ related:['moringa','coconut','mango','papaya','tamarind']},
+
+{id:'ceibo',cat:'tree',emoji:'🌺',name:'Ceiba / Kapok',sci:'Ceiba pentandra',
+ local:{tl:'Bubuy/Balibago',es:'Ceiba/Kapoc',fr:'Fromager',pt:'Sumaúma',yo:'Araba'},
+ rarity:2,phNative:false,
+ desc:'A massive tropical tree reaching 70m tall. Trunk has massive buttress roots. Silky white fiber (kapok) from seed pods used to fill pillows and life jackets. Sacred in Mayan cosmology.',
+ history:'Native to tropical America but spread to West Africa by the 1800s. Considered the World Tree (Yaxché) in Mayan cosmology — connecting the underworld, earth, and sky. Kapok fiber was the primary stuffing for life jackets before synthetic alternatives.',
+ tags:['Maya','sacred','kapok','massive','Americas'],
+ nutrition:{cal:0,protein:0,carbs:0,fat:0,fiber:0,sugar:0,gi:0},
+ vitamins:['N/A — fiber/timber tree'],
+ medicinal:'Bark used to treat fever, kidney disease, and as expectorant in traditional medicine; leaves applied as poultice; seeds have mild diuretic properties.',
+ toxicity:'Trunk spines can cause injury. Kapok fiber may cause respiratory irritation when handled in bulk.',
+ ecology:{role:'One of the tallest tropical trees; hollow trunk and buttresses shelter hundreds of species; flowers attract bats for pollination at night',pollinator:'Bats, moths',soilImpact:'Massive buttress roots prevent soil erosion; deep anchor in floodplains',climate:'Humid tropical, tolerates seasonal flooding'},
+ season:{peak:[12,1,2,3],partial:[11,4]},
+ cultivation:[
+   {title:'Propagation',desc:'Grow from seeds or large cuttings. Seeds are wrapped in kapok fiber — separate by soaking. Very fast-growing once established.'},
+   {title:'Spacing',desc:'This tree gets HUGE — needs at least 20m from structures. Not for small gardens. Ideal for large reforestation projects.'},
+   {title:'Uses',desc:'Kapok fiber harvested from pods for stuffing. Timber used for canoes. Excellent shade and wildlife tree.'},
+ ],
+ recipes:[],
+ related:['narra','baobab','acacia','molave','mango']},
+
+// ===================== HERBS & SPICES =====================
+{id:'pandan',cat:'herb',emoji:'🌾',name:'Pandan',sci:'Pandanus amaryllifolius',
+ local:{tl:'Pandan',ms:'Pandan','th':'ใบเตย',id:'Pandan',my:'Daun pandan'},
+ rarity:1,phNative:false,
+ desc:'The "vanilla of Southeast Asia." Fragrant, emerald-green leaves infuse sweets and rice with a unique floral flavor. Essential in Filipino, Thai, Indonesian, and Malaysian cooking.',
+ history:'Believed to originate in the Maluku Islands (Spice Islands) of Indonesia. Spread throughout Southeast Asia thousands of years ago through Austronesian migrations. The plant rarely flowers and seeds — almost entirely reproduced by humans via cuttings, suggesting very long cultivation history.',
+ tags:['aromatic','Southeast Asia','sweet','cooking','essential'],
+ nutrition:{cal:0,protein:0,carbs:0,fat:0,fiber:0,sugar:0,gi:0},
+ vitamins:['Used as flavoring — not consumed in bulk','Contains 2-acetyl-1-pyrroline (same aroma compound as jasmine rice)'],
+ medicinal:'Traditionally used for fever, headache, and as a mild sedative; leaves boiled to treat dandruff; juice used for arthritis pain; contains glycosides with hypoglycemic effects.',
+ toxicity:'Generally very safe as a flavoring herb. Very large therapeutic doses may cause complications — but cooking amounts are safe.',
+ ecology:{role:'Clumping shrub that stabilizes riverbanks and coastal areas; tolerates salt spray',pollinator:'Propagated vegetatively — rarely flowers',soilImpact:'Root network stabilizes moist soil; tolerates poor drainage',climate:'Tropical lowlands; tolerates waterlogging'},
+ season:{peak:[1,2,3,4,5,6,7,8,9,10,11,12],partial:[]},
+ cultivation:[
+   {title:'Cuttings',desc:'Cut stem sections 20–30cm with root nodes. Plant in moist soil. Roots develop in 2–3 weeks. Very easy to propagate.'},
+   {title:'Container Growing',desc:'Grows happily in large pots with moist, well-drained soil. Keep consistently moist but not waterlogged.'},
+   {title:'Harvest',desc:'Pick long, mature outer leaves. The inner young leaves have the strongest fragrance. Crush or tie in a knot before adding to recipes to release oils.'},
+ ],
+ recipes:[
+   {name:'Biko (Pandan Coconut Rice Cake)',time:'1 hr',servings:12,ingredients:['2 cups glutinous rice','2 cups coconut milk','1 cup coconut cream','1½ cups brown sugar','4 pandan leaves, knotted','½ tsp salt'],steps:['Wash and soak rice 2 hours. Drain.','Cook rice in coconut milk with pandan leaves until absorbed.','In a separate pan, cook brown sugar and coconut cream until thick.','Mix caramel into cooked rice. Transfer to greased pan.','Pour remaining caramel on top. Bake 20 min or broil until set.'],tip:'Knotting pandan leaves breaks cell walls and releases more flavor. Remove leaves before serving.'},
+ ],
+ related:['lemongrass','coconut','banana','ginger','galangal']},
+
+{id:'lemongrass',cat:'herb',emoji:'🌿',name:'Lemongrass',sci:'Cymbopogon citratus',
+ local:{tl:'Tanglad/Salai',es:'Hierba limón',zh:'香茅',th:'ตะไคร้',vi:'Sả'},
+ rarity:1,phNative:false,
+ desc:'Fragrant, citrusy grass used across Asian and Latin American cooking. Essential in Thai curry, Vietnamese pho, Filipino tinola, and many soups and marinades.',
+ history:'Native to South Asia and Southeast Asia. Spread globally through trade routes. Widely grown in tropical countries. Oil used in perfumery, insect repellents, and aromatherapy. Naturalized throughout the tropics.',
+ tags:['grass','citrus-scent','Southeast Asia','aromatic','essential oil'],
+ nutrition:{cal:99,protein:1.8,carbs:25,fat:0.5,fiber:0,sugar:0,gi:15},
+ vitamins:['Manganese','Potassium','Iron','Zinc','Citral (active compound)','Vitamin C'],
+ medicinal:'Citral compound has antimicrobial and antifungal properties; anti-inflammatory; traditionally used to relieve fever, stomach ache, and headache; essential oil used in aromatherapy for stress and anxiety.',
+ toxicity:'Generally safe in food amounts. Essential oil is concentrated — do not ingest large amounts. May cause skin irritation if applied undiluted.',
+ ecology:{role:'Dense clumping grass; provides ground cover and erosion control; repels mosquitoes naturally',pollinator:'Wind-pollinated grass',soilImpact:'Excellent soil stabilizer; used in vetiver-style contour planting to prevent erosion',climate:'Tropical, subtropical; drought-tolerant once established'},
+ season:{peak:[1,2,3,4,5,6,7,8,9,10,11,12],partial:[]},
+ cultivation:[
+   {title:'Planting',desc:'Divide clumps or plant stalks with root bases in well-drained soil. Full sun. Space 50–60cm apart. Very low maintenance.'},
+   {title:'Harvest',desc:'Cut outer stalks at base when 30cm+ tall. Use lower white-green portion for cooking; upper green leaves for tea or flavoring.'},
+   {title:'Division',desc:'Divide large clumps every 2 years to maintain vigor. Replant divisions in new locations.'},
+ ],
+ recipes:[
+   {name:'Lemongrass Chicken',time:'40 min',servings:4,ingredients:['1 kg chicken, cut up','3 stalks lemongrass, bruised','4 cloves garlic','2 shallots','1 tbsp fish sauce','1 tsp turmeric','Coconut milk 1 cup','Oil','Chili'],steps:['Blend garlic, shallots, and lower lemongrass into paste.','Sauté paste in oil until fragrant.','Add chicken and brown. Add turmeric and fish sauce.','Pour in coconut milk. Simmer 20 min.','Add sliced lemongrass for extra aroma. Adjust seasoning.'],tip:'Bruise lemongrass by smashing with a knife handle before slicing — this dramatically intensifies the citrus oil release.'},
+ ],
+ related:['ginger','pandan','turmeric','kaffir-lime','galangal']},
+
+{id:'basil',cat:'herb',emoji:'🌿',name:'Basil',sci:'Ocimum basilicum',
+ local:{tl:'Balanoy/Solasi',es:'Albahaca',zh:'罗勒',it:'Basilico',fr:'Basilic'},
+ rarity:1,phNative:false,
+ desc:'The king of culinary herbs. Over 150 varieties exist. From Thai basil to Italian sweet basil — each with distinct flavors. Sacred in Hinduism (Holy Basil/Tulsi).',
+ history:'Native to tropical Asia — India and Southeast Asia. Spread via spice routes to Europe 2,000+ years ago. Central to Italian cuisine since the 16th century. In the Philippines (balanoy/solasi), used in soups like pesa and as traditional medicine.',
+ tags:['culinary','aromatic','India','Mediterranean','versatile'],
+ nutrition:{cal:22,protein:3.2,carbs:2.7,fat:0.6,fiber:1.6,sugar:0.3,gi:10},
+ vitamins:['Vitamin K (345%)','Vitamin A (56%)','Iron (13%)','Calcium (18%)','Magnesium (14%)','Vitamin C (30%)'],
+ medicinal:'Eugenol compound has antibacterial properties; Holy Basil (Tulsi) is adaptogenic — reduces stress cortisol; anti-inflammatory; traditionally used for coughs, fever, and kidney stones.',
+ toxicity:'Very safe in food amounts. Estragole in some varieties is carcinogenic at very high doses — not a concern in culinary use. Blood thinning in very large amounts (Vitamin K interaction).',
+ ecology:{role:'Herbaceous annual/perennial; attracts pollinators; companion plant that deters aphids and spider mites',pollinator:'Bees, butterflies — great pollinator attractor',soilImpact:'Neutral; allelopathic to some soil pathogens',climate:'Tropical to temperate; cold-sensitive'},
+ season:{peak:[4,5,6,7,8,9],partial:[3,10]},
+ cultivation:[
+   {title:'Seeding',desc:'Direct sow or start indoors 4–6 weeks before last frost (temperate) or anytime in tropics. Thin to 20–30cm spacing.'},
+   {title:'Pinching',desc:'Pinch off flower heads as soon as they appear — this keeps plants bushy and delays bolting. Once it seeds, flavor declines.'},
+   {title:'Watering',desc:'Keep consistently moist but not waterlogged. Mulch to retain moisture in tropical heat. Avoid wetting leaves (causes black spots).'},
+ ],
+ recipes:[
+   {name:'Classic Pesto',time:'10 min',servings:6,ingredients:['2 cups fresh basil leaves','½ cup pine nuts (or walnuts)','3 cloves garlic','½ cup Parmesan','½ cup olive oil','Salt & pepper'],steps:['Toast nuts lightly in dry pan.','Pulse basil, nuts, and garlic in processor.','Add Parmesan, pulse again.','Stream in olive oil while blending.','Season with salt and pepper.'],tip:'Blanch basil 15 seconds then ice-shock for brilliant green color that doesn\'t oxidize. Taste-test garlic strength before adding all.'},
+ ],
+ related:['oregano','thyme','rosemary','mint','cilantro']},
+
+{id:'mint',cat:'herb',emoji:'🌱',name:'Mint',sci:'Mentha spp.',
+ local:{tl:'Hierba buena',es:'Menta',zh:'薄荷',hi:'पुदीना',fr:'Menthe'},
+ rarity:1,phNative:false,
+ desc:'One of humanity\'s oldest herbs. Over 25 species with diverse flavors. Peppermint, spearmint, chocolate mint — each distinct. Hierba buena in Philippines used in recipes and folk medicine.',
+ history:'Native to the Mediterranean and Middle East. Cultivated by the Ancient Egyptians, Greeks, and Romans. Used in the Philippines (hierba buena) since Spanish colonial times as folk medicine. Now grown worldwide in nearly every garden.',
+ tags:['cooling','menthol','Mediterranean','folk medicine','universal'],
+ nutrition:{cal:70,protein:3.8,carbs:15,fat:0.9,fiber:8,sugar:0,gi:5},
+ vitamins:['Vitamin A (85%)','Iron (24%)','Folate (10%)','Vitamin C (52%)','Menthol (active compound)','Rosmarinic acid'],
+ medicinal:'Menthol relieves IBS and digestive spasms; decongestant for respiratory conditions; topical analgesic; hierba buena traditionally used in Philippines for tooth/headache pain; anti-nausea.',
+ toxicity:'Menthol-containing products unsafe for infants/babies — may cause breathing issues. High doses of essential oil are toxic. Pennyroyal mint specifically can cause liver damage.',
+ ecology:{role:'Vigorous spreader via underground runners; provides ground cover; attracts bees and beneficial insects',pollinator:'Bees, butterflies',soilImpact:'Can become invasive (spreads via rhizomes); grow in containers to control spread; improves soil microbiome',climate:'Temperate to tropical; prefers cooler conditions'},
+ season:{peak:[4,5,6,7,8,9],partial:[3,10]},
+ cultivation:[
+   {title:'Container Warning',desc:'Plant mint ONLY in containers or with physical root barriers — it will take over your garden via underground runners.'},
+   {title:'Propagation',desc:'Root a stem in a glass of water — takes 1–2 weeks. Then plant in moist soil. Incredibly easy to propagate.'},
+   {title:'Harvest',desc:'Pick stems from the top down. Regular harvesting keeps plants compact. Harvest before flowering for best flavor.'},
+ ],
+ recipes:[
+   {name:'Mojito Mocktail',time:'5 min',servings:1,ingredients:['10 mint leaves','1 lime, juiced','2 tbsp sugar','Ice cubes','Sparkling water','Calamansi optional'],steps:['Muddle mint leaves and sugar in glass.','Add lime/calamansi juice. Stir.','Fill with ice.','Top with sparkling water.','Garnish with mint sprig.'],tip:'Muddle gently — you want to bruise the mint to release oils, not tear it into bitter shreds.'},
+ ],
+ related:['basil','lemongrass','cilantro','peppermint','rosemary']},
+
+// ===================== MUSHROOMS =====================
+{id:'oyster-mushroom',cat:'mushroom',emoji:'🍄',name:'Oyster Mushroom',sci:'Pleurotus ostreatus',
+ local:{tl:'Kabute (talaba)',zh:'平菇',ja:'ヒラタケ',ko:'느타리버섯',de:'Austernpilz'},
+ rarity:1,phNative:false,
+ desc:'Fan-shaped, delicate mushroom that grows on wood. One of the easiest mushrooms to cultivate at home. Meaty texture, mild umami flavor. Among the world\'s most commercially grown mushrooms.',
+ history:'Originally grown in Germany during WWI as a food source. Commercial cultivation began in 1917. Today produced globally — China accounts for 85% of world production. Widely cultivated in Philippine backyards using rice straw or sawdust bags.',
+ tags:['edible','cultivated','umami','wood-growing','Philippines'],
+ nutrition:{cal:33,protein:3.3,carbs:6.1,fat:0.4,fiber:2.3,sugar:1.1,gi:15},
+ vitamins:['Riboflavin (18%)','Niacin (20%)','Pantothenic acid (16%)','Potassium (9%)','Iron (7%)','Beta-glucans (immune support)'],
+ medicinal:'Beta-glucans stimulate immune system; lovastatin analogs may reduce cholesterol; anti-tumor properties studied in clinical trials; high antioxidant ergothioneine content.',
+ toxicity:'Very safe — one of the safest edible mushrooms. Rarely may cause allergic reaction in sensitive individuals. Always cook before eating.',
+ ecology:{role:'Wood decomposer — breaks down lignin; essential in forest nutrient cycling; habitat for insects',pollinator:'N/A — fungus, not flowering plant',soilImpact:'Decomposes wood and organic matter, returning nutrients to soil — essential ecological role',climate:'Temperate to tropical; prefers high humidity and moderate temperatures'},
+ season:{peak:[9,10,11,12,1,2],partial:[3,8]},
+ cultivation:[
+   {title:'Substrate Preparation',desc:'Rice straw or sawdust work best. Pasteurize by soaking in hot water (70°C) for 1 hour or sterilize in bags for better yield.'},
+   {title:'Inoculation',desc:'Mix cooled substrate with oyster mushroom spawn (available at agriculture stores). Fill into plastic bags.'},
+   {title:'Incubation',desc:'Store bags at 25–28°C in dark area for 2–3 weeks until white mycelium covers substrate. Do not open bags yet.'},
+   {title:'Fruiting',desc:'Slit bags when ready. Move to cooler (22–25°C), high humidity (85–90%) area with indirect light. Mist twice daily.'},
+   {title:'Harvest',desc:'Harvest when cap edges begin to flatten (before they curl up). Twist off at base. Multiple flushes possible.'},
+ ],
+ recipes:[
+   {name:'Adobong Kabute (Mushroom Adobo)',time:'25 min',servings:4,ingredients:['500g oyster mushrooms, torn','4 tbsp soy sauce','3 tbsp vinegar','5 cloves garlic','1 tbsp brown sugar','Bay leaves','Black pepper','Oil'],steps:['Sauté garlic in oil until golden.','Add mushrooms and cook until they release liquid.','Add soy sauce, vinegar, sugar, bay leaves, and pepper.','Simmer until liquid reduces and sauce thickens.','Serve with rice.'],tip:'Do not stir immediately after adding vinegar — let it cook uncovered for 1 minute to mellow the acidity before mixing.'},
+ ],
+ related:['shiitake','king-oyster','enoki','shimeji','button-mushroom']},
+
+{id:'shiitake',cat:'mushroom',emoji:'🍄',name:'Shiitake',sci:'Lentinula edodes',
+ local:{tl:'Shiitake',zh:'香菇',ja:'シイタケ',ko:'표고버섯',de:'Shiitake'},
+ rarity:2,phNative:false,
+ desc:'Japan\'s most prized edible mushroom. Rich, woody, umami-packed flavor. Dried form is even more intense. Used in East Asian cuisine for centuries.',
+ history:'Native to China, Japan, and Korea — the continent\'s forests. Cultivated in China since at least the Song dynasty (960–1279 AD). Japanese cultivation traditionally used oak logs (shii tree). Now produced globally, with China producing 85% of the world\'s supply.',
+ tags:['Japan','China','umami','medicinal','log-grown'],
+ nutrition:{cal:34,protein:2.2,carbs:6.8,fat:0.5,fiber:2.5,sugar:2.4,gi:15},
+ vitamins:['Vitamin D (37% if sun-exposed)','Riboflavin (17%)','Niacin (19%)','Pantothenic acid (26%)','Zinc (10%)','Lentinan (beta-glucan)'],
+ medicinal:'Lentinan (polysaccharide) is approved as an anti-cancer drug in Japan; Eritadenine lowers cholesterol; immune-modulating beta-glucans; excellent Vitamin D source (place gills-up in sun to increase D content 100x).',
+ toxicity:'Raw shiitake may cause "shiitake dermatitis" — flagellate rash from lentinan in 2% of people. Always cook thoroughly. Dried shiitake rehydration water should be used too — full of nutrients.',
+ ecology:{role:'Saprotrophic decomposer on dead hardwood; essential forest recycler; mycelium network supports forest ecology',pollinator:'N/A — spore-dispersed fungus',soilImpact:'Breaks down lignin and cellulose; spent shiitake logs enrich soil significantly',climate:'Cool temperate forests; cultivation possible in tropics at higher elevations'},
+ season:{peak:[9,10,11,3,4],partial:[2,5,8]},
+ cultivation:[
+   {title:'Log Preparation',desc:'Drill holes in fresh hardwood logs (oak, beech, sweet gum). Inoculate with shiitake dowel spawn. Seal holes with wax.'},
+   {title:'Colonization',desc:'Store logs in shaded, humid area 6–12 months while mycelium colonizes wood. Keep moist by misting or burying in sawdust.'},
+   {title:'Forcing Flush',desc:'Soak logs in cold water 24 hours to trigger fruiting (cold shock mimics autumn rain). Fruits appear in 7–10 days.'},
+   {title:'Sawdust Blocks',desc:'Faster alternative: use sterilized sawdust blocks with bran. Colonizes in 60–90 days. Multiple flushes over 6 months.'},
+ ],
+ recipes:[
+   {name:'Miso Soup with Shiitake',time:'15 min',servings:4,ingredients:['200g shiitake mushrooms, sliced','4 cups dashi stock (or water)','3 tbsp white miso paste','200g soft tofu, cubed','2 green onions, sliced','1 sheet nori, cut small'],steps:['Bring dashi/water to simmer. Add shiitake.','Cook 5 minutes until mushrooms are tender.','Add tofu cubes.','Reduce heat — NEVER boil miso. Dissolve miso paste in ladle with broth before adding.','Garnish with green onions and nori.'],tip:'Never boil miso — it destroys beneficial probiotics and changes flavor. Remove from heat then add miso.'},
+ ],
+ related:['oyster-mushroom','maitake','reishi','king-oyster','button-mushroom']},
+
+{id:'reishi',cat:'mushroom',emoji:'🟤',name:'Reishi',sci:'Ganoderma lucidum',
+ local:{tl:'Reishi',zh:'灵芝',ja:'霊芝 (Reishi)',ko:'영지',vi:'Linh chi'},
+ rarity:4,phNative:false,
+ desc:'The "Mushroom of Immortality" in Chinese medicine. Hard, woody, and bitter — not a culinary mushroom but one of the most studied medicinal fungi in the world.',
+ history:'Used in Traditional Chinese Medicine for over 4,000 years. Found in ancient tombs of Chinese emperors. Historically so rare that only royalty could access it. Now cultivated commercially using sawdust bags. One of the most scientifically studied medicinal mushrooms globally.',
+ tags:['medicinal','TCM','immortality','ancient','adaptogen'],
+ nutrition:{cal:0,protein:0,carbs:0,fat:0,fiber:0,sugar:0,gi:0},
+ vitamins:['N/A — medicinal use only','Triterpenoids (anti-cancer)','Beta-glucans (immune)','Ganoderic acids','Polysaccharides','Sterols'],
+ medicinal:'Ganoderic acids inhibit histamine release (anti-allergic); immunomodulating polysaccharides; studied for liver protection; anti-tumor in clinical trials; adaptogenic — reduces stress and fatigue; improves sleep quality.',
+ toxicity:'Generally safe at normal doses. High doses over extended periods may affect blood clotting. Avoid if on anticoagulants. Reishi allergic reactions possible. Not for children or pregnant women without medical supervision.',
+ ecology:{role:'Parasitic/saprotrophic on hardwood trees; important wood recycler; "nurse log" decomposer',pollinator:'N/A — spore-dispersed fungus',soilImpact:'Breaks down woody material; contributes to humus formation',climate:'Temperate to subtropical; cool, humid forests'},
+ season:{peak:[8,9,10,11],partial:[7,12]},
+ cultivation:[
+   {title:'Substrate',desc:'Sterilized sawdust supplemented with wheat bran. Inoculate with reishi liquid culture or grain spawn. Seal bags.'},
+   {title:'Colonization',desc:'Slow process — 90–120 days at 24–27°C for full colonization. Be patient. Contamination risk is high — sterile technique essential.'},
+   {title:'Fruiting',desc:'Open bags after full colonization. Keep at 24–27°C with 85–90% humidity. Antler-shaped primordia form under high CO2. Lower CO2 for cap development.'},
+   {title:'Harvest',desc:'Harvest mature caps (spore prints visible) or grow for spores. Dry at 50°C for preservation. Use in teas, tinctures, or powder.'},
+ ],
+ recipes:[
+   {name:'Reishi Tea',time:'45 min',servings:4,ingredients:['20g dried reishi slices','4 cups water','1 tsp honey or dates','Ginger slice optional'],steps:['Simmer reishi in water on very low heat 40 minutes.','Strain liquid.','Add honey or dates to balance bitterness.','Sip in small amounts — very potent.'],tip:'Reishi is naturally bitter — do not expect it to taste like regular tea. The bitterness is from the beneficial triterpenoids. Start with small amounts.'},
+ ],
+ related:['lion-mane','turkey-tail','maitake','chaga','shiitake']},
+
+{id:'lion-mane',cat:'mushroom',emoji:'🦁',name:"Lion's Mane",sci:'Hericium erinaceus',
+ local:{tl:"Leon's Mane",zh:'猴头菇',ja:'ヤマブシタケ',ko:'노루궁뎅이버섯',de:'Igelstachelbart'},
+ rarity:3,phNative:false,
+ desc:'A stunning white, shaggy mushroom resembling a lion\'s mane or waterfall. One of the most exciting medicinal mushrooms for brain health and neurological support.',
+ history:'Used in Traditional Chinese and Japanese medicine for centuries. Called "Yamabushitake" in Japan — named after mountain monks who wore similar shaggy vestments. Recent neuroscience research has sparked global interest in its NGF (nerve growth factor) stimulating compounds.',
+ tags:['brain health','neurology','Japan','China','rare'],
+ nutrition:{cal:35,protein:2.5,carbs:7,fat:0.4,fiber:2.8,sugar:1,gi:15},
+ vitamins:['Riboflavin','Niacin','Potassium','Iron','Hericenones (NGF stimulants)','Erinacines (NGF stimulants)'],
+ medicinal:'Hericenones and erinacines stimulate Nerve Growth Factor (NGF) — may support memory and brain function; studied for mild cognitive impairment and Alzheimer\'s prevention; anti-anxiety and antidepressant effects in studies; nerve regeneration research.',
+ toxicity:'Generally very safe. Rare cases of breathing difficulties in people with mushroom allergies. Avoid if mushroom-allergic. Limited safety data in pregnancy.',
+ ecology:{role:'Saprotrophic on dead and dying hardwood trees; important forest recycler; found on beech, oak, maple in wild',pollinator:'N/A — fungus',soilImpact:'Decomposes hardwood; returns nutrients to soil; mycelium network enriches forest ecology',climate:'Temperate hardwood forests; cool and humid'},
+ season:{peak:[8,9,10,11],partial:[7,12]},
+ cultivation:[
+   {title:'Substrate',desc:'Sterilized hardwood sawdust mixed with wheat bran (80:20). Colonizes faster than most gourmet mushrooms.'},
+   {title:'Colonization',desc:'25–28°C in dark for 3–4 weeks. White fluffy mycelium fills bags. No contamination usually if substrate is well-sterilized.'},
+   {title:'Fruiting',desc:'Open bags at neck or cut small X-slits. Fruits are very sensitive to CO2 — needs excellent fresh air exchange. Mist 2–3 times daily. Humid, cool (18–24°C) fruiting environment.'},
+   {title:'Harvest',desc:'Harvest just before or when icicle-like teeth (spines) begin to turn brown/yellow. Over-ripe lion\'s mane becomes bitter. Best when still pure white.'},
+ ],
+ recipes:[
+   {name:"Lion's Mane Steak",time:'20 min',servings:2,ingredients:["200g lion's mane mushroom, sliced 2cm thick",'2 tbsp butter','3 cloves garlic, minced','Fresh thyme','Salt & pepper','Lemon juice'],steps:["Season mushroom slices with salt and pepper.",'Melt butter in pan over medium-high heat.','Sear mushroom slices 3–4 min per side without moving (let crust form).','Add garlic and thyme in last minute.','Finish with lemon juice.'],tip:"Press the mushroom slices gently while searing — they release water. The pressing helps get a golden crust instead of steaming. The texture truly mimics crab or scallop."},
+ ],
+ related:['oyster-mushroom','shiitake','maitake','reishi','turkey-tail']},
+
+// ===================== VINES & EXOTIC =====================
+{id:'vanilla',cat:'vine',emoji:'🤎',name:'Vanilla',sci:'Vanilla planifolia',
+ local:{tl:'Banilya',es:'Vainilla',zh:'香草',fr:'Vanille',de:'Vanille'},
+ rarity:4,phNative:false,
+ desc:'The world\'s most expensive spice after saffron. A climbing orchid vine! Each flower must be hand-pollinated individually. The curing process takes 6+ months.',
+ history:'Native to Mexico — the Totonac people of Mexico were the first to cultivate it. Aztecs used it to flavor chocolate drinks. Spanish brought vanilla to Europe in the 1500s. Brought to Madagascar (now the world\'s top producer) in the 1800s. Melipona bees in Mexico are the only natural pollinators.',
+ tags:['orchid','spice','Mexico','expensive','Madagascar'],
+ nutrition:{cal:0,protein:0,carbs:0,fat:0,fiber:0,sugar:0,gi:0},
+ vitamins:['N/A — used as flavoring','Vanillin (primary flavor compound)','Antioxidant phenolic compounds'],
+ medicinal:'Vanillin is a potent antioxidant; mild antibacterial properties; aromatherapy use for reducing anxiety and sweet cravings; vanilla extract traditionally used for toothache.',
+ toxicity:'Pure vanilla extract contains alcohol — unsafe for children in large amounts. Vanilla "essence" or imitation vanilla has no toxicity concerns.',
+ ecology:{role:'Climbing orchid that attaches to host trees via aerial roots; natural pollinator is the Melipona bee in Mexico; elsewhere must be hand-pollinated',pollinator:'Melipona bees (Mexico only); hand-pollination required globally',soilImpact:'Epiphytic — does not harm host trees; benefits from forest shade',climate:'Humid tropical; needs consistent moisture, shade, and warm temperatures'},
+ season:{peak:[5,6,7,8],partial:[4,9]},
+ cultivation:[
+   {title:'Climbing Support',desc:'Plant near a trellis, tree, or post. Vines need to climb to flower. Aerial roots attach naturally. Redirect trailing ends downward to encourage branching.'},
+   {title:'Hand Pollination',desc:'The make-or-break step. Flowers open one morning only. Transfer pollen from anther to stigma using a toothpick. Miss the window = no vanilla bean.'},
+   {title:'Long Wait',desc:'Pods take 9 months to mature after pollination. Harvest when tips turn yellow. Then begins the curing process.'},
+   {title:'Curing Process',desc:'Kill pods in hot water (60°C), sweat in blankets 1–2 weeks, dry in sun daily for 1–2 months, cure in shade for 6+ months. This develops vanillin flavor.'},
+ ],
+ recipes:[
+   {name:'Vanilla Bean Crème Brûlée',time:'1.5 hrs',servings:6,ingredients:['6 egg yolks','1 cup sugar (+ extra for brûlée)','2 cups heavy cream','1 vanilla bean, split','Pinch salt'],steps:['Scrape vanilla seeds from pod. Simmer cream with pod and seeds.','Whisk yolks and ¾ cup sugar until pale.','Slowly stream hot cream into yolks, whisking constantly.','Strain into ramekins. Bake in water bath 160°C for 40 min.','Chill 4 hours. Top with sugar layer and torch until caramelized.'],tip:'The water bath (bain-marie) is essential — it prevents the custard from curdling by maintaining even, gentle heat throughout baking.'},
+ ],
+ related:['saffron','cinnamon','cardamom','clove','star-anise']},
+
+{id:'black-pepper',cat:'vine',emoji:'🫙',name:'Black Pepper',sci:'Piper nigrum',
+ local:{tl:'Paminta',es:'Pimienta negra',zh:'黑胡椒',hi:'काली मिर्च',ar:'فلفل أسود'},
+ rarity:1,phNative:false,
+ desc:'The "King of Spices" — the world\'s most traded spice by value. A tropical climbing vine that produces peppercorns at different stages of ripeness: green, black, red, and white pepper all come from the same plant.',
+ history:'Native to Kerala, India — traded for thousands of years. Peppercorns were so valuable in ancient Rome they were used as currency. Arabs controlled the spice trade until the Portuguese found a sea route to India in the 1490s, sparking the Age of Exploration. Philippines became a minor producer during Spanish colonial era.',
+ tags:['King of Spices','India','trade','vine','universal'],
+ nutrition:{cal:251,protein:10,carbs:64,fat:3.3,fiber:26,sugar:0.6,gi:10},
+ vitamins:['Vitamin K (163%)','Iron (53%)','Manganese (202%)','Piperine (bioavailability enhancer)','Vitamin C (17%)','Calcium (44%)'],
+ medicinal:'Piperine enhances absorption of other nutrients (especially turmeric curcumin) by 2000%; stimulates digestive enzymes; antioxidant; anti-inflammatory; traditionally used for congestion, constipation, and as a carminative.',
+ toxicity:'In normal culinary amounts — completely safe. High supplement doses may cause GI irritation. Piperine may interact with some medications by inhibiting their metabolism.',
+ ecology:{role:'Climbing vine native to forest understory; grows up trees using aerial roots',pollinator:'Wind, rain',soilImpact:'Neutral; well-suited to moist forest floor conditions',climate:'Humid tropical; needs consistent moisture and warm temperatures'},
+ season:{peak:[1,2,3],partial:[12,4]},
+ cultivation:[
+   {title:'Stem Cuttings',desc:'Take 2–3 node stem cuttings. Plant in rich, moist, well-drained soil with a climbing pole or tree nearby. Roots within 2–3 weeks.'},
+   {title:'Support Structure',desc:'Plant posts or use living trees as supports. Pepper vines climb 3–4m. Prune tops to encourage horizontal branching (produces more drupes).'},
+   {title:'Harvest Timing',desc:'Green: unripe, freshest flavor. Black: picked unripe, dried until wrinkled. Red: fully ripe, sweeter. White: ripe berry, skin removed.'},
+ ],
+ recipes:[
+   {name:'Pepper Crusted Tuna',time:'15 min',servings:2,ingredients:['2 tuna steaks','2 tbsp coarsely cracked black pepper','1 tsp sea salt','2 tbsp olive oil','Lemon','Soy sauce drizzle'],steps:['Crack peppercorns coarsely using mortar or pan.','Press pepper and salt firmly onto both sides of tuna.','Heat pan to very hot. Sear tuna 60–90 sec per side (still raw inside).','Rest 2 min. Slice and serve with lemon and soy.'],tip:'The pan must be extremely hot before the tuna goes in — you want a sear, not a steam. Don\'t move the fish while searing.'},
+ ],
+ related:['turmeric','ginger','cinnamon','clove','basil']},
+
+{id:'saffron',cat:'herb',emoji:'🌸',name:'Saffron',sci:'Crocus sativus',
+ local:{tl:'Asaprán',es:'Azafrán',zh:'藏红花',hi:'केसर',ar:'زعفران'},
+ rarity:5,phNative:false,
+ desc:'The world\'s most expensive spice by weight — up to $10,000/kg. The crimson stigmas of a crocus flower, hand-harvested over 3 weeks each year. 150+ flowers to make 1 gram.',
+ history:'Cultivated for over 3,500 years, originating in Greece or Southwest Asia. Used by Cleopatra as a cosmetic bath additive. Spread by Arab invaders to Spain (La Mancha saffron is world-renowned). Persian saffron carpets were presented as royal gifts. Iran produces 90% of the world\'s supply.',
+ tags:['most expensive spice','Iran','Spain','luxury','antidepressant'],
+ nutrition:{cal:310,protein:11,carbs:65,fat:5.8,fiber:3.9,sugar:0,gi:15},
+ vitamins:['Manganese (400%)','Vitamin C (134%)','Iron (18%)','Potassium (27%)','Crocin & safranal (active compounds)','Magnesium (33%)'],
+ medicinal:'Crocin acts as natural antidepressant (comparable to Prozac in studies); safranal reduces anxiety; anti-cancer properties studied; improves memory in Alzheimer\'s studies; reduces PMS symptoms.',
+ toxicity:'Medicinal doses (5–10g) can be toxic — abortifacient at high doses. Culinary amounts (0.05–0.5g) are completely safe. Never self-medicate with large saffron doses.',
+ ecology:{role:'Sterile triploid crocus that cannot reproduce naturally — entirely dependent on human cultivation. Propagated by corms.',pollinator:'N/A — sterile cultivar; no pollination',soilImpact:'Corms need well-drained, nutrient-rich soil; grows in cool, dry mountain conditions',climate:'Cool temperate; requires cold winters and dry summers — very specific Mediterranean/mountain climate'},
+ season:{peak:[10,11],partial:[9]},
+ cultivation:[
+   {title:'Corm Planting',desc:'Plant saffron corms 15cm deep in well-drained, alkaline soil in late summer. Full sun. Cool climate essential (Mediterranean/highland).'},
+   {title:'Very Specific Climate',desc:'Saffron needs cold winters, hot dry summers, and no waterlogging. Not suitable for humid tropical climates like most of the Philippines (highland Benguet may work).'},
+   {title:'Hand Harvest',desc:'Each flower produces 3 crimson stigmas. Pick flowers at dawn, remove stigmas by hand immediately. Dry stigmas immediately at low heat.'},
+ ],
+ recipes:[
+   {name:'Saffron Risotto (Risotto alla Milanese)',time:'35 min',servings:4,ingredients:['1½ cups Arborio rice','Large pinch saffron (soaked in ½ cup warm broth)','1 shallot, minced','1 cup dry white wine','5 cups hot chicken broth','4 tbsp butter','½ cup Parmesan','Salt'],steps:['Sauté shallot in 2 tbsp butter until soft.','Add rice, toast 2 minutes.','Add wine and stir until absorbed.','Add hot broth one ladle at a time, stirring constantly (20 min total).','At final ladle, add saffron broth.','Remove from heat, stir in remaining butter and Parmesan (mantecatura).'],tip:'The mantecatura (off-heat butter stirring) is what makes risotto creamy. Never stop stirring during cooking and never add cold broth.'},
+ ],
+ related:['turmeric','vanilla','cardamom','cinnamon','annatto']},
+
+// Additional entries to reach 180+
+{id:'avocado',cat:'fruit',emoji:'🥑',name:'Avocado',sci:'Persea americana',
+ local:{tl:'Abokado',es:'Aguacate',zh:'牛油果',fr:'Avocat',pt:'Abacate'},
+ rarity:1,phNative:false,
+ desc:'The only fruit that is a healthy fat source. Creamy, buttery texture with a mild nutty flavor. Filipino avocados are eaten sweet — with sugar and milk or ice cream.',
+ history:'Native to south-central Mexico. Cultivated by Aztecs and Maya for thousands of years. Spanish explorers encountered it in the 1500s. Brought to the Philippines in the 18th century by Spanish galleons. In the Philippines, eaten ripe with sugar and milk — opposite of Western savory use.',
+ tags:['healthy fat','Mexico','Philippines','superfood','versatile'],
+ nutrition:{cal:160,protein:2,carbs:9,fat:15,fiber:7,sugar:0.7,gi:15},
+ vitamins:['Vitamin K (26%)','Folate (20%)','Vitamin C (17%)','Potassium (14%)','Vitamin B6 (19%)','Vitamin E (14%)'],
+ medicinal:'Monounsaturated fats support heart health; lutein protects eye health; oleic acid is anti-inflammatory; potassium helps regulate blood pressure; folate essential in pregnancy.',
+ toxicity:'Avocado leaves, bark, skin, and pit contain persin — toxic to many animals (dogs, cats, birds). The flesh is safe for humans.',
+ ecology:{role:'Large tree; fruit evolved to be dispersed by now-extinct megafauna (giant ground sloths); now dispersed by humans',pollinator:'Bees',soilImpact:'Deep-rooted; moderate water use; provides shade',climate:'Subtropical to tropical; frost-sensitive; needs dry period to fruit'},
+ season:{peak:[6,7,8,9,10],partial:[5,11]},
+ cultivation:[
+   {title:'Grafting',desc:'Named varieties (Hass, Fuerte) require grafting onto avocado seedling rootstock. Seed-grown trees take 7–15 years to fruit and produce inferior quality.'},
+   {title:'Watering',desc:'Deep, infrequent watering preferred. Allow soil to dry between waterings. Waterlogging causes root rot (Phytophthora cinnamomi — avocado\'s biggest enemy).'},
+   {title:'Pollination',desc:'Most commercial varieties need cross-pollination. Plant two complementary types (A and B type flowers) for best yield.'},
+ ],
+ recipes:[
+   {name:'Filipino Avocado Shake',time:'5 min',servings:2,ingredients:['2 ripe avocados','2 cups cold milk','3 tbsp sweetened condensed milk','1 cup crushed ice','Sugar to taste'],steps:['Scoop avocado flesh into blender.','Add milk, condensed milk, and ice.','Blend until smooth and creamy.','Taste and add sugar if needed.','Pour into glasses and serve immediately.'],tip:'Filipino style is sweet — if you\'re used to savory guacamole, this is a completely different experience. Use perfectly ripe avocados for the creamiest texture.'},
+ ],
+ related:['mango','papaya','guava','banana','coconut']},
+
+{id:'tamarind',cat:'fruit',emoji:'🟫',name:'Tamarind',sci:'Tamarindus indica',
+ local:{tl:'Sampalok',es:'Tamarindo',zh:'罗望子',hi:'इमली',sw:'Ukwaju'},
+ rarity:1,phNative:false,
+ desc:'A souring agent used in cuisines across Asia, Africa, the Americas, and the Caribbean. The pods contain a sticky, tart pulp used in candies, sauces, and stews.',
+ history:'Native to tropical Africa. Introduced to South Asia over 4,000 years ago. Arab traders called it "tamar hindi" (Indian date) — which became tamarind. Brought to the Americas by Spanish and Portuguese in the 16th century. Now the primary souring agent in Filipino sinigang.',
+ tags:['sour','Africa','universal','sinigang','condiment'],
+ nutrition:{cal:239,protein:2.8,carbs:63,fat:0.6,fiber:5.1,sugar:38,gi:65},
+ vitamins:['Iron (35%)','Thiamine (43%)','Magnesium (22%)','Potassium (16%)','Niacin (13%)','Vitamin C (6%)'],
+ medicinal:'Tartaric acid aids digestion; high iron treats anemia; antimicrobial pulp; traditionally used as laxative; tamarind bark used for wound healing in Ayurveda.',
+ toxicity:'High in tartaric acid — may worsen acid reflux. Excessive consumption may cause diarrhea. Seeds are hard but edible when roasted.',
+ ecology:{role:'Large, long-lived tree (200+ years); provides shade; fruit eaten by birds, monkeys, and bats for seed dispersal',pollinator:'Bees',soilImpact:'Deep roots; nitrogen-fixer; leaves enrich soil upon decomposition',climate:'Tropical to subtropical; drought-tolerant'},
+ season:{peak:[11,12,1,2,3],partial:[10,4]},
+ cultivation:[
+   {title:'Seed Propagation',desc:'Scarify or soak seeds 24 hours before planting. Germination in 1–2 weeks. Very hardy once established.'},
+   {title:'Patience',desc:'Tamarind trees take 7–10 years to fruit from seed, 3–4 years from grafted plants. Long-lived once established (centuries).'},
+   {title:'Minimal Care',desc:'One of the most drought-tolerant fruit trees. Once established, thrives with minimal irrigation. Harvest pods when brown and papery.'},
+ ],
+ recipes:[
+   {name:'Sinigang na Baboy (Pork Tamarind Soup)',time:'1.5 hrs',servings:6,ingredients:['1 kg pork ribs','200g fresh tamarind or 1 packet sinigang mix','1 onion','2 tomatoes','Kangkong, sitaw, radish, okra','Fish sauce & salt','6 cups water'],steps:['Boil pork with onion and tomatoes 45 minutes.','Add tamarind (boil and strain if fresh).','Add root vegetables first (radish), then sitaw and okra.','Add kangkong last.','Season with fish sauce. Soup should be pleasantly sour.'],tip:'The tamarind level is personal — taste as you go. Some like a mild sour, others love it very tart. Fresh tamarind gives the best depth; sinigang mix is convenient.'},
+ ],
+ related:['calamansi','guava','kamias','pomelo','starfruit']},
+
+{id:'galangal',cat:'herb',emoji:'🌿',name:'Galangal',sci:'Alpinia galanga',
+ local:{tl:'Langkawas',ms:'Lengkuas',th:'ข่า',id:'Laos/Lengkuas',zh:'良姜'},
+ rarity:2,phNative:false,
+ desc:'A cousin of ginger with a more piney, citrusy, sharp flavor. Essential in Thai Tom Kha Gai and Indonesian rendang. Often confused with ginger but has a distinct taste.',
+ history:'Native to Southeast Asia. Cultivated in Java, Thailand, and the Malay Peninsula for millennia. Arab traders brought it to medieval Europe where it was used as a medicinal spice. Fell out of European use when other spices became available.',
+ tags:['rhizome','Southeast Asia','Thai cuisine','aromatic','ginger family'],
+ nutrition:{cal:70,protein:1.5,carbs:16,fat:0.5,fiber:2,sugar:0,gi:15},
+ vitamins:['Vitamin C','Iron','Galangin (active compound)','Flavonoids','Acemannan','Potassium'],
+ medicinal:'Galangin has antibacterial and antifungal properties; anti-inflammatory; traditionally used for stomach pain, fungal infections, and as an aphrodisiac; reduces nausea.',
+ toxicity:'Safe in culinary amounts. Essential oil in large doses may cause GI irritation. Avoid medicinal amounts during pregnancy.',
+ ecology:{role:'Tropical forest understory plant; rhizome shared by humans globally; related to cardamom',pollinator:'Bees, insects',soilImpact:'Similar to ginger; moist tropical conditions',climate:'Humid tropical; tolerates partial shade'},
+ season:{peak:[10,11,12,1,2],partial:[9,3]},
+ cultivation:[],
+ recipes:[
+   {name:'Tom Kha Gai (Thai Coconut Soup)',time:'30 min',servings:4,ingredients:['2 chicken breasts, sliced','3 cups coconut milk','2 cups chicken broth','6 slices galangal','3 stalks lemongrass, bruised','5 kaffir lime leaves','200g mushrooms','Fish sauce','Lime juice','Chili','Cilantro'],steps:['Bring coconut milk and broth to simmer.','Add galangal, lemongrass, and lime leaves. Simmer 10 min.','Add chicken and mushrooms. Cook 8 min.','Season with fish sauce, lime juice, and chili.','Do not boil vigorously after adding coconut milk.','Garnish with cilantro and serve.'],tip:'Galangal is chewed around but not eaten in Thailand — its role is flavor-infusing. The kaffir lime leaves are equally important — do not substitute regular lime.'},
+ ],
+ related:['ginger','turmeric','lemongrass','pandan','kaffir-lime']},
+
+{id:'cinnamon',cat:'herb',emoji:'🟤',name:'Cinnamon',sci:'Cinnamomum verum',
+ local:{tl:'Kanela',es:'Canela',zh:'肉桂',hi:'दालचीनी',ar:'قرفة'},
+ rarity:2,phNative:false,
+ desc:'One of the world\'s oldest spices — traded for 4,000+ years. The inner bark of a tropical tree. True cinnamon (Ceylon) vs. cassia (Chinese cinnamon) are different but often sold interchangeably.',
+ history:'Native to Sri Lanka (Ceylon). Ancient Egyptians imported cinnamon in 2000 BC. Roman Emperor Nero burned a year\'s supply of cinnamon at his wife\'s funeral (a display of wealth). Portuguese and Dutch fought for control of Ceylon\'s cinnamon trade in the 1500s–1600s.',
+ tags:['Sri Lanka','ancient spice','bark','warmth','blood sugar'],
+ nutrition:{cal:247,protein:4,carbs:81,fat:1.2,fiber:53,sugar:2.2,gi:5},
+ vitamins:['Manganese (498%)','Calcium (100%)','Iron (46%)','Vitamin K (30%)','Cinnamaldehyde (active compound)'],
+ medicinal:'Cinnamaldehyde lowers blood sugar (type 2 diabetes management); anti-inflammatory; antifungal and antibacterial; antioxidant; may reduce LDL cholesterol.',
+ toxicity:'Cassia cinnamon (common supermarket type) contains high coumarin — toxic to liver in large amounts. True Ceylon cinnamon is safe. Do not take cinnamon supplements without medical guidance.',
+ ecology:{role:'Tropical tree; bark is harvested from young shoots; regenerates after peeling',pollinator:'Bees, butterflies',soilImpact:'Well-drained sandy soil preferred; tropical understory',climate:'Humid tropical; consistent warm temperatures'},
+ season:{peak:[5,6,7,8],partial:[4,9]},
+ cultivation:[
+   {title:'Propagation',desc:'Grow from seeds or stem cuttings. Seeds germinate within 3 weeks. Cutting roots in about 30 days.'},
+   {title:'Bark Harvesting',desc:'Cut branches 2–3 years old. Peel outer bark, then scrape inner bark. Inner layers curl into quills as they dry. Harvest twice yearly.'},
+ ],
+ recipes:[
+   {name:'Cinnamon Arroz Caldo',time:'45 min',servings:6,ingredients:['1 cup glutinous rice','500g chicken','1 cinnamon stick','3 cloves garlic','1 onion','1 thumb ginger','1 tsp turmeric','Fish sauce','6 cups broth','Calamansi, green onions, chicharon (to serve)'],steps:['Sauté garlic, onion, ginger. Add chicken pieces.','Add rice, turmeric, cinnamon stick. Stir to coat.','Pour in broth. Simmer 25–30 min stirring often until thick.','Season with fish sauce. Remove cinnamon stick.','Serve topped with green onions, calamansi, chicharon.'],tip:'The cinnamon adds an unexpected warmth that elevates this comfort porridge. Glutinous rice breaks down more than regular rice, creating the characteristic thick, almost sticky consistency.'},
+ ],
+ related:['clove','star-anise','nutmeg','cardamom','turmeric']},
+
+{id:'star-anise',cat:'herb',emoji:'⭐',name:'Star Anise',sci:'Illicium verum',
+ local:{tl:'Anis',es:'Anís estrellado',zh:'八角',fr:'Anis étoilé',vi:'Hồi'},
+ rarity:2,phNative:false,
+ desc:'A beautiful star-shaped spice from southern China. The primary flavor in pho, five-spice powder, and anise liqueurs. Contains anethole — the same compound as anise and licorice.',
+ history:'Native to southern China and northern Vietnam. Cultivated for over 3,000 years in Asia. Major component of Chinese Five-Spice. Became globally important when pharmaceutical companies discovered shikimic acid in star anise — the precursor to Tamiflu (oseltamivir).',
+ tags:['China','five-spice','pho','licorice','medicinal'],
+ nutrition:{cal:337,protein:18,carbs:50,fat:16,fiber:15,sugar:0,gi:15},
+ vitamins:['Iron (87%)','Calcium (55%)','Magnesium (30%)','Manganese (310%)','Anethole (active compound)','Vitamin C (38%)'],
+ medicinal:'Anethole has antifungal, antibacterial, and antiviral properties; shikimic acid is precursor to Tamiflu antiviral; traditionally used for digestive issues, bloating, and as a carminative.',
+ toxicity:'Japanese star anise (Illicium anisatum) is TOXIC — often confused with true star anise. Ensure correct species. Essential oil toxic in large doses. Safe in culinary amounts.',
+ ecology:{role:'Small evergreen tree of subtropical forests; fruits dispersed by wind and birds',pollinator:'Insects',soilImpact:'Acidic, moist forest soils; shade-tolerant understory tree',climate:'Subtropical; moist, humid conditions'},
+ season:{peak:[9,10,11],partial:[8,12]},
+ cultivation:[
+   {title:'Climate',desc:'Requires cool subtropical conditions — not suitable for humid tropical lowlands. Highland Philippines (Mountain Province) may be viable.'},
+   {title:'Harvest',desc:'Harvest star anise pods just before they fully ripen (when still green). Dry in sun until brown and fragrant — 1–2 weeks.'},
+ ],
+ recipes:[
+   {name:'Pork Pata Tim (Braised Pork Hock)',time:'3 hrs',servings:6,ingredients:['1 pork hock (pata)','4 star anise','1 cinnamon stick','5 cloves','½ cup soy sauce','¼ cup rice wine','3 tbsp sugar','1 cup water','Garlic, ginger'],steps:['Brown pork in hot oil on all sides.','Add all remaining ingredients.','Bring to boil, then simmer covered 2.5–3 hours until very tender.','Serve with bok choy and steamed rice.'],tip:'The longer it braises, the more the star anise and five-spice penetrate the collagen-rich pork. This dish improves overnight — even better the next day.'},
+ ],
+ related:['cinnamon','clove','black-pepper','vanilla','cardamom']},
+
+{id:'enoki',cat:'mushroom',emoji:'🍄',name:'Enoki Mushroom',sci:'Flammulina velutipes',
+ local:{tl:'Enoki',zh:'金针菇',ja:'エノキタケ',ko:'팽이버섯',de:'Winterpilz'},
+ rarity:2,phNative:false,
+ desc:'Long, thin, snow-white mushrooms with tiny caps — grown in the dark to maintain their delicate white color. Crunchy, mild, perfect in hot pot and soups.',
+ history:'Native to Japan, China, and other parts of East Asia. Used in Chinese and Japanese cuisine for centuries. Wild enoki are actually dark brown. The white cultivated form was developed in Japan in the 20th century by growing in CO2-rich, dark environments. Now one of the world\'s most widely cultivated mushrooms.',
+ tags:['Japan','China','hotpot','crunchy','winter mushroom'],
+ nutrition:{cal:37,protein:2.7,carbs:8.1,fat:0.3,fiber:2.7,sugar:2,gi:15},
+ vitamins:['Riboflavin (13%)','Niacin (17%)','Pantothenic acid (24%)','Potassium (10%)','Beta-glucans','Ergosterol'],
+ medicinal:'Beta-glucans support immune function; Proflamin compound studied for anti-tumor properties; niacin supports brain health; traditionally used in China to strengthen stomach and liver.',
+ toxicity:'Wild Flammulina must be cooked. Raw or improperly handled enoki has caused Listeria outbreaks. Always refrigerate properly and wash thoroughly.',
+ ecology:{role:'Saprotrophic on dead hardwood (especially elm and hackberry); grows in cold winter months on decaying wood',pollinator:'N/A — fungus',soilImpact:'Decomposes wood in cold seasons when other fungi are dormant',climate:'Cool temperate; naturally fruits in winter'},
+ season:{peak:[11,12,1,2],partial:[3,10]},
+ cultivation:[
+   {title:'Substrate',desc:'Sterilized sawdust mixed with rice bran. Bottle cultivation preferred (like commercial mushroom farms).'},
+   {title:'CO2 and Darkness',desc:'To produce the characteristic long white stems, cultivate in dark conditions with elevated CO2. Without this, they grow short and brown.'},
+   {title:'Cold Fruiting',desc:'Enoki prefer cold temperatures 10–15°C for fruiting — ideal for refrigerator-adjacent growing or cool highland environments.'},
+ ],
+ recipes:[
+   {name:'Bacon-Wrapped Enoki',time:'20 min',servings:4,ingredients:['200g enoki mushrooms','150g bacon, sliced thin','Teriyaki sauce','Sesame seeds','Green onions'],steps:['Bundle 6–8 enoki stems together.','Wrap each bundle with 1 bacon slice.','Pan-fry or grill, turning until bacon is crispy on all sides.','Drizzle with teriyaki sauce in last minute.','Garnish with sesame and green onion.'],tip:'Secure with toothpick during cooking. The enoki become slightly softened inside while the bacon crisps — contrasting textures make this irresistible.'},
+ ],
+ related:['shiitake','oyster-mushroom','shimeji','king-oyster','button-mushroom']},
+
+{id:'maitake',cat:'mushroom',emoji:'🍄',name:'Maitake (Hen of the Woods)',sci:'Grifola frondosa',
+ local:{tl:'Maitake',zh:'灰树花',ja:'舞茸',ko:'잎새버섯',de:'Klapperschwamm'},
+ rarity:3,phNative:false,
+ desc:'A spectacular, ruffled cluster mushroom that grows at the base of oak trees in autumn. In Japan, finding one was said to make foragers dance with joy — hence "Maitake" (dancing mushroom).',
+ history:'Native to northeast Japan, China, and North America. Traditionally very difficult to find in the wild — highly prized. Commercial cultivation was only achieved in the 1980s after years of research. Revered in Traditional Chinese and Japanese medicine for immune support.',
+ tags:['Japan','oak tree','immune','autumn','ruffled'],
+ nutrition:{cal:31,protein:2,carbs:6.7,fat:0.1,fiber:2.7,sugar:0,gi:15},
+ vitamins:['Vitamin D (94% if sun-exposed)','Riboflavin (18%)','Niacin (25%)','Potassium (7%)','D-fraction (active compound)','Beta-glucans'],
+ medicinal:'D-fraction polysaccharide is the most extensively studied mushroom immune compound; significant anti-cancer properties in clinical trials; reduces blood pressure; lowers blood sugar; adaptogenic.',
+ toxicity:'Generally very safe. May enhance effects of blood sugar medications — diabetics should monitor. Rare allergic reactions possible.',
+ ecology:{role:'Parasitic/saprotrophic on oak, elm, and maple; causes white rot; can form massive fruiting bodies (up to 50kg!)',pollinator:'N/A — fungus',soilImpact:'Decomposes heartwood of trees; important in old-growth forest recycling',climate:'Cool temperate forests; primarily eastern North America and Japan'},
+ season:{peak:[9,10,11],partial:[8,12]},
+ cultivation:[
+   {title:'Substrate',desc:'Hardwood sawdust blocks supplemented with wheat bran. Sterilized in bags or bottles. Colonization takes 60–90 days.'},
+   {title:'Fruiting',desc:'Cold shock (drop temperature 5–8°C) triggers fruiting after colonization. Keep at 15–20°C with fresh air and misting.'},
+   {title:'Harvest',desc:'Harvest when fronds are tender and before they dry and toughen. Entire cluster can be cut at base.'},
+ ],
+ recipes:[
+   {name:'Maitake Tempura',time:'20 min',servings:4,ingredients:['300g maitake mushrooms, separated into pieces','1 cup ice-cold water','¾ cup flour','¼ cup cornstarch','1 egg yolk','Oil for frying','Dipping sauce: soy, mirin, grated daikon'],steps:['Make tempura batter: whisk egg yolk with ice water. Add flour and cornstarch — mix MINIMALLY (lumps are fine).','Heat oil to 175°C.','Dip maitake in batter and fry 2–3 min until light golden.','Drain on rack. Serve immediately with dipping sauce.'],tip:'The ice-cold batter and minimal mixing creates a light, shatteringly crisp tempura. Hot batter = dense coating. Work quickly.'},
+ ],
+ related:['shiitake','oyster-mushroom','reishi','lion-mane','turkey-tail']},
+
+{id:'turkey-tail',cat:'mushroom',emoji:'🦃',name:'Turkey Tail',sci:'Trametes versicolor',
+ local:{tl:'Turkey Tail',zh:'云芝',ja:'カワラタケ',ko:'구름버섯',de:'Schmetterlingstramete'},
+ rarity:2,phNative:false,
+ desc:'A bracket fungus with beautiful concentric color bands resembling a turkey\'s tail. One of the most scientifically studied medicinal mushrooms — an approved adjunct cancer treatment in Japan.',
+ history:'Found on every continent except Antarctica. Used in Traditional Chinese Medicine (called "Yun Zhi" or Cloud Mushroom) for over 2,000 years. Japanese company Kureha developed PSK (Krestin) from turkey tail — approved cancer treatment in Japan and sold for over $1 billion annually.',
+ tags:['global','cancer research','TCM','approved drug','colorful'],
+ nutrition:{cal:0,protein:0,carbs:0,fat:0,fiber:0,sugar:0,gi:0},
+ vitamins:['PSK (polysaccharide-K)','PSP (polysaccharide-peptide)','Beta-glucans','Phenols','Flavonoids'],
+ medicinal:'PSK (Krestin) is an approved cancer adjunct drug in Japan; stimulates NK cells and T-cells; improves gut microbiome diversity; antiviral; supports immune recovery after chemotherapy.',
+ toxicity:'Generally very safe. PSK approved drug with safety data. Turkey tail tea is widely consumed with minimal adverse effects. Not for immunocompromised patients without medical supervision.',
+ ecology:{role:'One of the most common wood-rotting fungi globally; crucial in forest recycling; white rot on hardwood and softwood',pollinator:'N/A — wind-dispersed spores',soilImpact:'Major decomposer of fallen wood; returns nutrients to soil; enriches forest floor',climate:'Ubiquitous worldwide; grows in most forest types'},
+ season:{peak:[9,10,11,12],partial:[1,8]},
+ cultivation:[
+   {title:'Log Cultivation',desc:'Inoculate freshly cut hardwood logs with turkey tail spawn dowels. Seal with wax. Colonizes in 6–18 months.'},
+   {title:'Sawdust Blocks',desc:'Faster: use sterilized hardwood sawdust blocks. Colonizes in 60–90 days. Fruits in wave-like formations.'},
+ ],
+ recipes:[
+   {name:'Turkey Tail Immune Tea',time:'45 min',servings:4,ingredients:['15g dried turkey tail pieces','4 cups water','1 cinnamon stick','Honey to taste','Lemon'],steps:['Simmer turkey tail in water 40 minutes on low heat.','Add cinnamon in last 10 minutes.','Strain and pour into cups.','Add honey and lemon to taste.'],tip:'Turkey tail is very tough and not eaten — strain it out. The bioactive compounds are water-soluble and brew into the tea. Brew longer for more potency.'},
+ ],
+ related:['reishi','lion-mane','maitake','shiitake','chaga']},
+]; // END DATA
+
+// ======================================================
+// DID YOU KNOW facts
+// ======================================================
+const DYK = [
+  {text: "The avocado's name comes from the Nahuatl word 'ahuacatl', meaning testicle — likely referring to the fruit's shape when hanging in pairs.", source: 'Mango'},
+  {text: "Mushrooms are more closely related to humans than to plants. Both belong to the Opisthokonta supergroup, sharing common ancestry.", source: 'Mycology'},
+  {text: "Vanilla planifolia is the only fruit-bearing orchid. The Totonac people of Mexico are believed to be the first to cultivate vanilla beans.", source: 'Vanilla'},
+  {text: "Coconut water was used as emergency IV fluid in World War II when medical saline ran short in the Pacific — it is naturally sterile and isotonic.", source: 'Coconut'},
+  {text: "Saffron requires 150,000–200,000 hand-picked crocus flowers to produce just 1 kilogram of the spice.", source: 'Saffron'},
+  {text: "The breadfruit tree (Artocarpus altilis) was at the center of the famous Mutiny on the Bounty in 1789 — the ship was transporting breadfruit seedlings from Tahiti to feed enslaved people in the Caribbean.", source: 'History'},
+  {text: "Lion's Mane mushroom contains compounds that stimulate Nerve Growth Factor (NGF), which may support brain neuron regeneration — a field of active scientific research.", source: "Lion's Mane"},
+  {text: "The durian's powerful odor comes from 44 different volatile organic compounds including sulfur compounds similar to onion and garlic.", source: 'Durian'},
+  {text: "Moringa (Malunggay) leaves contain more Vitamin C than oranges, more Vitamin A than carrots, more calcium than milk, and more iron than spinach — per gram.", source: 'Moringa'},
+  {text: "Pandan leaves contain the same aromatic compound (2-acetyl-1-pyrroline) as jasmine rice and Basmati rice, explaining the characteristic floral aroma.", source: 'Pandan'},
+  {text: "The mangosteen has been cultivated for so long that it can no longer reproduce sexually — it reproduces apomictically (without pollination), essentially cloning itself.", source: 'Mangosteen'},
+  {text: "Black pepper was so valuable in ancient Rome that it was used to pay taxes and ransoms. When Rome was sacked by Visigoths in 410 AD, 3,000 lbs of pepper was among the demanded ransom.", source: 'Black Pepper'},
+  {text: "Calamansi (Citrofortunella microcarpa) is so integral to Philippine culture that the word for Vitamin C in Filipino is 'Bitamina C' often associated entirely with the fruit.", source: 'Calamansi'},
+  {text: "Reishi mushroom (Ganoderma lucidum) has been found growing on ancient bronze vessels in China dated to 2,000+ years ago, showing its deep historical reverence.", source: 'Reishi'},
+  {text: "The jackfruit (Langka) is the world's largest tree-borne fruit — a single fruit can weigh up to 55 kilograms (120 lbs).", source: 'Jackfruit'},
+];
+
+// ======================================================
+// QUIZ questions
+// ======================================================
+const QUIZZES = [
+  {q:"Which Philippine fruit is known as the 'Queen of Fruits'?",opts:["Mango","Mangosteen","Durian","Lanzones"],a:1},
+  {q:"What compound in turmeric is responsible for its anti-inflammatory properties?",opts:["Capsaicin","Curcumin","Gingerol","Allicin"],a:1},
+  {q:"Which mushroom contains lentinan, an approved anti-cancer drug in Japan?",opts:["Oyster mushroom","Reishi","Shiitake","Lion's mane"],a:2},
+  {q:"The calamansi fruit is scientifically known as a hybrid between which two plants?",opts:["Lemon & orange","Kumquat & mandarin","Lime & grapefruit","Citron & tangerine"],a:1},
+  {q:"What makes pandan such a unique flavoring agent in Southeast Asian cuisine?",opts:["Its deep red color","Its high sugar content","The compound 2-acetyl-1-pyrroline (same as jasmine rice)","Its extreme spiciness"],a:2},
+  {q:"Which spice requires 150,000–200,000 hand-picked flowers to produce 1 kilogram?",opts:["Vanilla","Cinnamon","Cardamom","Saffron"],a:3},
+  {q:"Moringa (Malunggay) is called the 'Miracle Tree' because it has more Vitamin C than:",opts:["Mangoes","Calamansi","Oranges","Dragon fruit"],a:2},
+  {q:"What is the primary active compound in black pepper that enhances absorption of other nutrients?",opts:["Capsaicin","Gingerol","Piperine","Allicin"],a:2},
+  {q:"Which mushroom is nicknamed the 'Mushroom of Immortality' in Traditional Chinese Medicine?",opts:["Maitake","Shiitake","Reishi","Lion's Mane"],a:2},
+  {q:"The durian fruit is banned on public transport in several Southeast Asian countries primarily because of its:",opts:["Sharp spines","Powerful smell","Toxic juice","Large size"],a:1},
+  {q:"What is the unique pollination challenge with vanilla orchid flowers outside of Mexico?",opts:["They only bloom at night","They need wind pollination","Each flower must be hand-pollinated and only opens for one morning","They require specific soil pH"],a:2},
+  {q:"Which disease does the Philippine Department of Health officially recognize ampalaya (bitter melon) as helping manage?",opts:["Hypertension","Cancer","Type 2 Diabetes","Kidney disease"],a:2},
+  {q:"Lion's Mane mushroom is most studied for its potential benefits to which organ system?",opts:["Heart","Brain & nervous system","Liver","Digestive system"],a:1},
+  {q:"What is the 'Lanzones Festival' of Camiguin, Philippines celebrating?",opts:["A fishing harvest","The annual sweet lanzones harvest","A religious feast","A coconut harvest"],a:1},
+  {q:"Coconut water was historically used as what kind of emergency medical fluid during World War II?",opts:["Blood transfusion","IV saline substitute","Wound disinfectant","Oxygen carrier"],a:1},
+  {q:"Which part of the black pepper vine produces green, black, red, and white peppercorns?",opts:["Different plant varieties","Different plants grown in different countries","The same peppercorn harvested at different ripeness stages","Different parts of the vine"],a:2},
+  {q:"The compound 'shikimic acid' extracted from star anise is a precursor to which antiviral medication?",opts:["Aspirin","Tamiflu (oseltamivir)","Penicillin","Hydroxychloroquine"],a:1},
+  {q:"Why is black pepper considered 'non-optional' when consuming turmeric for health benefits?",opts:["It improves flavor","Piperine increases curcumin absorption by 2000%","It helps digestion","It prevents turmeric staining"],a:1},
+];
+
+// ======================================================
+// APP STATE
+// ======================================================
+let state = {
+  filter: 'all',
+  search: '',
+  viewMode: 'grid',
+  favorites: JSON.parse(localStorage.getItem('fr_favs') || '[]'),
+  notes: JSON.parse(localStorage.getItem('fr_notes') || '{}'),
+  currentItem: null,
+  currentTab: 0,
+  quizIndex: 0,
+  quizScore: 0,
+  quizAnswered: false,
+  currentPage: 'home',
+};
+
+// ======================================================
+// HELPERS
+// ======================================================
+function saveFavs(){localStorage.setItem('fr_favs',JSON.stringify(state.favorites))}
+function saveNotes(){localStorage.setItem('fr_notes',JSON.stringify(state.notes))}
+function isFav(id){return state.favorites.includes(id)}
+function toggleFav(id){
+  if(isFav(id)){state.favorites=state.favorites.filter(f=>f!==id)}
+  else{state.favorites.push(id)}
+  saveFavs();updateFavCount();
+}
+function updateFavCount(){
+  const n=state.favorites.length;
+  const el=document.getElementById('fav-count');
+  el.textContent=n;
+  el.classList.toggle('show',n>0);
+}
+function rarityLabel(r){return['','Common','Uncommon','Rare','Very Rare','Legendary'][r]}
+function rarityPips(r,max=5){
+  let h='';
+  for(let i=1;i<=max;i++) h+=`<span class="rp${i<=r?' filled':''}"></span>`;
+  return h;
+}
+
+// ======================================================
+// ROUTING
+// ======================================================
+function showPage(name){
+  state.currentPage=name;
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.querySelectorAll('.nsec,.bnav-btn').forEach(b=>{
+    b.classList.toggle('active',b.dataset.page===name);
+  });
+  if(name==='favorites') renderFavorites();
+  if(name==='quiz') renderQuiz();
+  if(name==='seasonal') renderSeasonal();
+  window.scrollTo(0,0);
+}
+
+// ======================================================
+// GRID RENDERING
+// ======================================================
+function getFilteredData(){
+  return DATA.filter(d=>{
+    const catOk = state.filter==='all' || d.cat===state.filter;
+    const q = state.search.toLowerCase();
+    const searchOk = !q || 
+      d.name.toLowerCase().includes(q) ||
+      (d.sci||'').toLowerCase().includes(q) ||
+      (d.desc||'').toLowerCase().includes(q) ||
+      (d.tags||[]).some(t=>t.toLowerCase().includes(q)) ||
+      Object.values(d.local||{}).some(v=>v.toLowerCase().includes(q));
+    return catOk && searchOk;
+  });
+}
+
+function buildCard(d, idx){
+  const fav = isFav(d.id);
+  return `
+<div class="card cat-${d.cat}" data-id="${d.id}" style="animation-delay:${idx*0.03}s">
+  <div class="card-accent-bar"></div>
+  <div class="card-body">
+    <div class="card-content">
+      <div class="card-top">
+        <div class="card-emoji">${d.emoji}</div>
+        <div class="card-meta">
+          <span class="cat-badge cb-${d.cat}">${d.cat}</span>
+          <div class="rarity-pip">${rarityPips(d.rarity)}</div>
+        </div>
+      </div>
+      <div class="card-name">${d.name}</div>
+      <div class="card-sci">${d.sci}</div>
+      <div class="card-desc">${d.desc}</div>
+      <div class="card-tags">${(d.tags||[]).slice(0,3).map(t=>`<span class="ctag">${t}</span>`).join('')}</div>
+    </div>
+    <div class="card-foot">
+      <button class="cfbtn" onclick="event.stopPropagation();openModal('${d.id}')">📖 Explore</button>
+      <button class="cfbtn fav-btn${fav?' faved':''}" onclick="event.stopPropagation();handleFav('${d.id}',this)">
+        ${fav?'★':'☆'} ${fav?'Saved':'Save'}
+      </button>
+    </div>
+  </div>
+</div>`;
+}
+
+function renderGrid(){
+  const data = getFilteredData();
+  const grid = document.getElementById('main-grid');
+  const noRes = document.getElementById('no-results');
+  if(data.length===0){grid.innerHTML='';noRes.style.display='block';return;}
+  noRes.style.display='none';
+  grid.innerHTML = data.map((d,i)=>buildCard(d,i)).join('');
+  grid.querySelectorAll('.card').forEach(c=>{
+    c.addEventListener('click',()=>openModal(c.dataset.id));
+  });
+}
+
+function handleFav(id,btn){
+  toggleFav(id);
+  const fav=isFav(id);
+  btn.className=`cfbtn fav-btn${fav?' faved':''}`;
+  btn.innerHTML=`${fav?'★':'☆'} ${fav?'Saved':'Save'}`;
+}
+
+// ======================================================
+// MODAL
+// ======================================================
+function openModal(id){
+  const d = DATA.find(x=>x.id===id);
+  if(!d) return;
+  state.currentItem=d;
+  state.currentTab=0;
+
+  // Header
+  const fav=isFav(d.id);
+  document.getElementById('modal-header').innerHTML=`
+    <div class="modal-emoji">${d.emoji}</div>
+    <div class="modal-hinfo">
+      <div class="modal-cat-badge"><span class="cat-badge cb-${d.cat}">${d.cat}</span></div>
+      <div class="modal-rarity">
+        <span class="modal-rarity-label">Rarity:</span>
+        <div class="rarity-bar">${rarityPips(d.rarity)}</div>
+        <span style="font-size:.72rem;color:var(--text3)">${rarityLabel(d.rarity)}</span>
+      </div>
+      <div class="modal-name">${d.name}</div>
+      <div class="modal-sci">${d.sci}</div>
+      <div class="modal-locals">
+        ${Object.entries(d.local||{}).map(([k,v])=>`<strong>${k.toUpperCase()}</strong>: ${v}`).join(' &nbsp;·&nbsp; ')}
+      </div>
+      <button class="modal-fav-btn${fav?' faved':''}" id="modal-fav-btn" onclick="toggleModalFav('${d.id}')">
+        ${fav?'★ Saved':'☆ Save to Favorites'}
+      </button>
+    </div>`;
+
+  // Tabs
+  const tabs=['📖 Overview','🌿 History','🥗 Nutrition','🍳 Recipes','🌱 Cultivation','💊 Medicinal','🌍 Ecology','📝 Notes','🔗 Related'];
+  document.getElementById('modal-tabs').innerHTML=tabs.map((t,i)=>`
+    <button class="mtab${i===0?' active':''}" onclick="switchTab(${i})">${t}</button>`).join('');
+
+  // Panes
+  const notes = state.notes[d.id]||'';
+  const panes = [
+    // 0: Overview
+    `<div class="sec-h">🌿 About</div>
+     <p class="sec-text">${d.desc}</p>
+     <div class="sec-h">🏷️ Tags</div>
+     <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px">
+       ${(d.tags||[]).map(t=>`<span class="ctag">${t}</span>`).join('')}
+     </div>
+     ${d.toxicity?`<div class="warn-box">${d.toxicity}</div>`:''}`,
+
+    // 1: History
+    `<div class="sec-h">📜 Origin & History</div>
+     <p class="sec-text">${d.history||'Historical information coming soon.'}</p>`,
+
+    // 2: Nutrition
+    buildNutritionPane(d),
+
+    // 3: Recipes
+    buildRecipesPane(d),
+
+    // 4: Cultivation
+    buildCultivationPane(d),
+
+    // 5: Medicinal
+    `<div class="sec-h">💊 Medicinal & Folk Medicine</div>
+     <p class="sec-text">${d.medicinal||'Medicinal information coming soon.'}</p>
+     ${d.toxicity?`<div class="sec-h">⚠️ Warnings & Toxicity</div><div class="warn-box">${d.toxicity}</div>`:''}`,
+
+    // 6: Ecology
+    buildEcologyPane(d),
+
+    // 7: Notes
+    `<div class="sec-h">📝 Personal Notes</div>
+     <p style="font-size:.82rem;color:var(--text3);margin-bottom:14px">Your private notes about this plant (saved locally on your device).</p>
+     <textarea class="notes-area" id="notes-area" placeholder="Write your notes here…">${notes}</textarea>
+     <button class="notes-save" onclick="saveNote('${d.id}')">💾 Save Note</button>
+     <span class="notes-saved" id="notes-saved">✓ Saved!</span>`,
+
+    // 8: Related
+    buildRelatedPane(d),
+  ];
+
+  document.getElementById('modal-panes').innerHTML = panes.map((p,i)=>
+    `<div class="modal-pane${i===0?' active':''}" id="pane-${i}">${p}</div>`).join('');
+
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function buildNutritionPane(d){
+  const n=d.nutrition;
+  if(!n||n.cal===0) return `<div class="sec-h">🥗 Nutrition</div><p class="sec-text">Not applicable — this is a non-food/timber/medicinal species used for cultivation or medicinal purposes only.</p>`;
+  return `
+    <div class="sec-h">📊 Nutrition (per 100g)</div>
+    <div class="nutr-grid">
+      <div class="nutr-cell"><div class="nutr-val">${n.cal}</div><div class="nutr-unit">kcal</div><div class="nutr-label">Calories</div></div>
+      <div class="nutr-cell"><div class="nutr-val">${n.protein}g</div><div class="nutr-label">Protein</div></div>
+      <div class="nutr-cell"><div class="nutr-val">${n.carbs}g</div><div class="nutr-label">Carbohydrates</div></div>
+      <div class="nutr-cell"><div class="nutr-val">${n.fat}g</div><div class="nutr-label">Fat</div></div>
+      <div class="nutr-cell"><div class="nutr-val">${n.fiber}g</div><div class="nutr-label">Fiber</div></div>
+      <div class="nutr-cell"><div class="nutr-val">${n.sugar}g</div><div class="nutr-label">Sugar</div></div>
+      ${n.gi?`<div class="nutr-cell"><div class="nutr-val">${n.gi}</div><div class="nutr-label">Glycemic Index</div></div>`:''}
+    </div>
+    <div class="sec-h">💊 Vitamins & Minerals</div>
+    <div class="vit-row">${(d.vitamins||[]).map(v=>`<span class="vit">${v}</span>`).join('')}</div>`;
+}
+
+function buildRecipesPane(d){
+  if(!d.recipes||d.recipes.length===0) return `<div class="sec-h">🍳 Recipes</div><p class="sec-text">Recipe details coming soon for this item.</p>`;
+  return `<div class="sec-h">🍳 Recipes</div>` + d.recipes.map(r=>`
+    <div class="recipe-block">
+      <div class="recipe-name">🍽️ ${r.name}</div>
+      <div class="recipe-meta">
+        <span class="rmeta">⏱️ ${r.time}</span>
+        <span class="rmeta">👥 Serves ${r.servings}</span>
+      </div>
+      <div class="sec-h" style="font-size:.9rem">Ingredients</div>
+      <ul class="ingr-list">${r.ingredients.map(i=>`<li>${i}</li>`).join('')}</ul>
+      <div class="sec-h" style="font-size:.9rem">Steps</div>
+      <ul class="steps">${r.steps.map((s,i)=>`
+        <li class="step">
+          <span class="step-num">${i+1}</span>
+          <span class="step-text">${s}</span>
+        </li>`).join('')}</ul>
+      ${r.tip?`<div class="recipe-tip">${r.tip}</div>`:''}
+    </div>`).join('');
+}
+
+function buildCultivationPane(d){
+  if(!d.cultivation||d.cultivation.length===0) return `<div class="sec-h">🌱 Cultivation</div><p class="sec-text">Cultivation guide coming soon for this item.</p>`;
+  return `<div class="sec-h">🌱 Full Cultivation Guide</div>` +
+    `<ul class="steps">` + d.cultivation.map((s,i)=>`
+      <li class="step">
+        <span class="step-num">${i+1}</span>
+        <span class="step-text"><strong>${s.title}</strong>${s.desc}</span>
+      </li>`).join('') + `</ul>`;
+}
+
+function buildEcologyPane(d){
+  const ec=d.ecology||{};
+  const seas=d.season||{};
+  const peakSet=new Set(seas.peak||[]);
+  const partSet=new Set(seas.partial||[]);
+  return `
+    <div class="sec-h">🌍 Ecological Role</div>
+    <div class="eco-grid">
+      ${ec.role?`<div class="eco-card"><div class="eco-icon">🌿</div><div class="eco-label">Role</div><div class="eco-val">${ec.role}</div></div>`:''}
+      ${ec.pollinator?`<div class="eco-card"><div class="eco-icon">🐝</div><div class="eco-label">Pollinator</div><div class="eco-val">${ec.pollinator}</div></div>`:''}
+      ${ec.soilImpact?`<div class="eco-card"><div class="eco-icon">🌱</div><div class="eco-label">Soil Impact</div><div class="eco-val">${ec.soilImpact}</div></div>`:''}
+      ${ec.climate?`<div class="eco-card"><div class="eco-icon">🌤️</div><div class="eco-label">Climate</div><div class="eco-val">${ec.climate}</div></div>`:''}
+    </div>
+    <div class="sec-h">📅 Seasonal Availability</div>
+    <div class="cal-row">
+      ${MONTHS.map((m,i)=>{
+        const mn=i+1;
+        const cls=peakSet.has(mn)?'peak':partSet.has(mn)?'partial':'';
+        return `<div class="cal-m${cls?' '+cls:''}"><div class="cal-m-name">${m}</div>${peakSet.has(mn)?'●':partSet.has(mn)?'◐':'○'}</div>`;
+      }).join('')}
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;font-size:.72rem;color:var(--text3)">
+      <span>● Peak Season</span><span>◐ Partial Season</span><span>○ Off Season</span>
+    </div>`;
+}
+
+function buildRelatedPane(d){
+  const related=(d.related||[]).slice(0,8);
+  if(!related.length) return `<div class="sec-h">🔗 Related</div><p class="sec-text">No related items listed.</p>`;
+  return `<div class="sec-h">🔗 Related Species</div>
+    <div class="related-row">
+      ${related.map(rid=>{
+        const rel=DATA.find(x=>x.id===rid);
+        if(!rel) return '';
+        return `<div class="rel-card" onclick="openModal('${rid}')">
+          <div class="rel-emoji">${rel.emoji}</div>
+          <div class="rel-name">${rel.name}</div>
+        </div>`;
+      }).join('')}
+    </div>`;
+}
+
+function switchTab(i){
+  state.currentTab=i;
+  document.querySelectorAll('.mtab').forEach((t,idx)=>t.classList.toggle('active',idx===i));
+  document.querySelectorAll('.modal-pane').forEach((p,idx)=>p.classList.toggle('active',idx===i));
+}
+
+function toggleModalFav(id){
+  toggleFav(id);
+  const fav=isFav(id);
+  const btn=document.getElementById('modal-fav-btn');
+  btn.className=`modal-fav-btn${fav?' faved':''}`;
+  btn.innerHTML=fav?'★ Saved':'☆ Save to Favorites';
+  // update card if visible
+  const card=document.querySelector(`.card[data-id="${id}"] .fav-btn`);
+  if(card){card.className=`cfbtn fav-btn${fav?' faved':''}`;card.innerHTML=`${fav?'★':'☆'} ${fav?'Saved':'Save'}`;}
+}
+
+function saveNote(id){
+  const area=document.getElementById('notes-area');
+  state.notes[id]=area.value;
+  saveNotes();
+  const saved=document.getElementById('notes-saved');
+  saved.style.display='inline';
+  setTimeout(()=>{saved.style.display='none'},2000);
+}
+
+function closeModal(){
+  document.getElementById('overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+// ======================================================
+// FAVORITES PAGE
+// ======================================================
+function renderFavorites(){
+  const grid=document.getElementById('fav-grid');
+  const empty=document.getElementById('fav-empty');
+  if(!state.favorites.length){grid.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  const items=DATA.filter(d=>state.favorites.includes(d.id));
+  grid.innerHTML=items.map((d,i)=>buildCard(d,i)).join('');
+  grid.querySelectorAll('.card').forEach(c=>{
+    c.addEventListener('click',()=>openModal(c.dataset.id));
+  });
+}
+
+// ======================================================
+// QUIZ
+// ======================================================
+let quizQ=null;
+function renderQuiz(){
+  const wrap=document.getElementById('quiz-wrap');
+  const q=QUIZZES[state.quizIndex % QUIZZES.length];
+  quizQ=q;
+  state.quizAnswered=false;
+  wrap.innerHTML=`
+    <div class="quiz-card">
+      <div class="quiz-num">Question ${(state.quizIndex%QUIZZES.length)+1} of ${QUIZZES.length}</div>
+      <div class="quiz-q">${q.q}</div>
+      <div class="quiz-opts">
+        ${q.opts.map((o,i)=>`<button class="qopt" onclick="answerQuiz(${i},this)">${o}</button>`).join('')}
+      </div>
+      <div class="quiz-result" id="quiz-result">
+        <span class="quiz-score" id="quiz-msg"></span>
+        <p id="quiz-exp" style="font-size:.82rem;color:var(--text2);margin:8px 0"></p>
+        <button class="quiz-next" onclick="nextQuiz()">Next Question →</button>
+      </div>
+    </div>
+    <div style="text-align:center;color:var(--text3);font-size:.8rem">Score: ${state.quizScore} correct</div>`;
+}
+
+function answerQuiz(idx, btn){
+  if(state.quizAnswered) return;
+  state.quizAnswered=true;
+  const q=quizQ;
+  const opts=document.querySelectorAll('.qopt');
+  opts.forEach((o,i)=>{
+    o.style.pointerEvents='none';
+    if(i===q.a) o.classList.add('correct');
+    else if(i===idx&&idx!==q.a) o.classList.add('wrong');
+  });
+  const correct=idx===q.a;
+  if(correct) state.quizScore++;
+  const res=document.getElementById('quiz-result');
+  document.getElementById('quiz-msg').textContent=correct?'✅ Correct!':'❌ Wrong';
+  document.getElementById('quiz-exp').textContent=`The correct answer is: "${q.opts[q.a]}"`;
+  res.classList.add('show');
+}
+
+function nextQuiz(){
+  state.quizIndex++;
+  renderQuiz();
+}
+
+// ======================================================
+// SEASONAL
+// ======================================================
+function renderSeasonal(){
+  const grid=document.getElementById('cal-grid');
+  const items=DATA.filter(d=>d.season&&(d.season.peak.length||d.season.partial.length));
+  grid.innerHTML=items.map(d=>`
+    <div class="cal-item" onclick="openModal('${d.id}')">
+      <div class="cal-item-top">
+        <div class="cal-item-emoji">${d.emoji}</div>
+        <div>
+          <div class="cal-item-name">${d.name}</div>
+          <div style="font-size:.7rem;color:var(--text3)">${d.sci}</div>
+        </div>
+      </div>
+      <div class="cal-months-mini">
+        ${MONTHS.map((_,i)=>{
+          const mn=i+1;
+          const cls=(d.season.peak||[]).includes(mn)?'peak':(d.season.partial||[]).includes(mn)?'partial':'';
+          return `<div class="cmm${cls?' '+cls:''}"></div>`;
+        }).join('')}
+      </div>
+    </div>`).join('');
+}
+
+// ======================================================
+// DID YOU KNOW
+// ======================================================
+function showDYK(){
+  const fact=DYK[Math.floor(Math.random()*DYK.length)];
+  document.getElementById('dyk-text').textContent=fact.text;
+  document.getElementById('dyk-source').textContent=`Related: ${fact.source}`;
+}
+
+// ======================================================
+// INIT & EVENT LISTENERS
+// ======================================================
+function init(){
+  updateFavCount();
+  showDYK();
+  setInterval(showDYK,12000);
+  renderGrid();
+  renderSeasonal();
+
+  // FILTER
+  document.querySelectorAll('.filt').forEach(b=>{
+    b.addEventListener('click',()=>{
+      state.filter=b.dataset.cat;
+      document.querySelectorAll('.filt').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      renderGrid();
+    });
+  });
+
+  // SEARCH
+  const si=document.getElementById('search-input');
+  const sc=document.getElementById('search-clear');
+  si.addEventListener('input',()=>{
+    state.search=si.value;
+    sc.classList.toggle('show',!!si.value);
+    renderGrid();
+  });
+  sc.addEventListener('click',()=>{
+    si.value='';state.search='';
+    sc.classList.remove('show');
+    renderGrid();
+  });
+
+  // VIEW TOGGLE
+  document.getElementById('grid-btn').addEventListener('click',()=>{
+    state.viewMode='grid';
+    document.getElementById('main-grid').classList.remove('list-view');
+    document.getElementById('grid-btn').classList.add('active');
+    document.getElementById('list-btn').classList.remove('active');
+  });
+  document.getElementById('list-btn').addEventListener('click',()=>{
+    state.viewMode='list';
+    document.getElementById('main-grid').classList.add('list-view');
+    document.getElementById('list-btn').classList.add('active');
+    document.getElementById('grid-btn').classList.remove('active');
+  });
+
+  // NAV
+  document.querySelectorAll('.nsec,.bnav-btn').forEach(b=>{
+    b.addEventListener('click',()=>showPage(b.dataset.page));
+  });
+  document.getElementById('fav-nav-btn').addEventListener('click',()=>showPage('favorites'));
+  document.getElementById('quiz-nav-btn').addEventListener('click',()=>showPage('quiz'));
+
+  // MODAL CLOSE
+  document.getElementById('modal-close').addEventListener('click',closeModal);
+  document.getElementById('overlay').addEventListener('click',e=>{
+    if(e.target===document.getElementById('overlay')) closeModal();
+  });
+  document.addEventListener('keydown',e=>{if(e.key==='Escape') closeModal();});
+
+  // STAT COUNTER
+  document.getElementById('stat-total').textContent=DATA.length+'+';
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+
+<!-- PWA Service Worker Registration -->
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js', { scope: './' })
+      .then(reg => {
+        console.log('[Flora & Roots] Service Worker registered:', reg.scope);
+        // Check for updates on page load
+        reg.addEventListener('updatefound', () => {
+          const newWorker = reg.installing;
+          newWorker.addEventListener('statechange', () => {
+            if(newWorker.state === 'installed' && navigator.serviceWorker.controller){
+              console.log('[Flora & Roots] New version available — refresh to update.');
+            }
+          });
+        });
+      })
+      .catch(err => console.warn('[Flora & Roots] SW registration failed:', err));
+  });
+}
+</script>
+</body>
+</html>
